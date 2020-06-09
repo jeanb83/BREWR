@@ -28,11 +28,29 @@ gem 'redis', '~> 4.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'devise'
-
+# Front End Le Wagon Gems
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
+
+# Faker
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+
+# Cloudinary
+gem 'cloudinary'
+
+# Devise
+gem 'devise'
+
+# Country Select
+gem 'country_select'
+
+# Search gems
+gem 'pg_search'
+
+# Geocoder
+gem 'geocoder'
+
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
   gem 'dotenv-rails'

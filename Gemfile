@@ -51,6 +51,9 @@ gem 'pg_search'
 # Geocoder
 gem 'geocoder'
 
+# HTTP
+gem "http"
+
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
   gem 'dotenv-rails'

@@ -8,21 +8,29 @@ class EventsController < ApplicationController
     # Set event group
     @group = @event.group
     # STAGE 1 (VOTE)
-    if @event.stage = 1
-      # Event membership needed to assign to a vote, got it by user_id and event_id because each pair is unique
-      @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
-    # STAGE 2 (BOOKING or BOOKED)
-    elsif @event.stage = 2 || @event.stage = 3
-      # Get the random user
-      @random_user = User.find(@event.random_user_id)
-      # Set the list of all the places of the event not full (booking_status not false), best is first
-      @event_places = EventPlaces.where(event_id: @event).where.not(booking_status: false).order(rank: :asc)
-      # Set the #1 event (the one displayed in the show)
-      @event_place = @event_places[0]
-      # Set the marker for the map
-      if @event_place.geocoded?
-        @markers = [{lat: @event_place.yelp_latitude, lng: @event_place.yelp_longitude}]
+    if @event.stage == 1
+      # Check if the stage 2 conditions are matched (will update stage to 2 if yes)
+      if @event.check_stage_2_conditions?
+        # If yes reload show (and thus go to stage 2)
+        show
+      else
+        # Event membership needed to assign to a vote, got it by user_id and event_id because each pair is unique
+        @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
       end
+    # STAGE 2 (BOOKING)
+    elsif @event.stage == 2
+      # Check if the stage 3 conditions are matched (will update stage to 3 if yes)
+      if @event.check_stage_3_conditions?
+        # If yes reload show (and thus go to stage 3)
+        show
+      else
+        # Set the variables (same variables than stage 3)
+        set_stage_2_3_variables
+      end
+    # STAGE 3 (BOOKED)
+    elsif @event.stage == 3
+      # Set the variables (same variables than stage 2)
+      set_stage_2_3_variables
     end
   end
 
@@ -83,6 +91,19 @@ class EventsController < ApplicationController
   def set_event
     # Find event by id in DB
     @event = Event.find(params[:id])
+  end
+
+  def set_stage_2_3_variables
+    # Get the random user
+    @random_user = User.find(@event.random_user_id)
+    # Set the list of all the places of the event not full (booking_status not false), best is first
+    @event_places = EventPlaces.where(event_id: @event).where.not(booking_status: false).order(rank: :asc)
+    # Set the #1 event (the one displayed in the show)
+    @event_place = @event_places[0]
+    # Set the marker for the map
+    if @event_place.geocoded?
+      @markers = [{lat: @event_place.yelp_latitude, lng: @event_place.yelp_longitude}]
+    end
   end
 
   def event_params

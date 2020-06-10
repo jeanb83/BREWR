@@ -12,9 +12,10 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [:show, :edit, :update, :destroy] do # As a user I can do the rest of the crud inside the event page
-    resources :event_memberships, only: [:update] # As a user I can declare that I won't be coming for this event
     resources :votes, only: [:create] # As a user I can vote from within the event show page
   end
+
+  resources :event_memberships, only: [:update] # As a user I can declare that I won't be coming for this event
 
   resources :group_memberships, only: [:destroy] # As a user I can leave a group
   

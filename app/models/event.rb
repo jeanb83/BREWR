@@ -4,6 +4,8 @@ class Event < ApplicationRecord
   has_many :event_memberships, dependent: :destroy
   has_many :event_places, dependent: :destroy
 
+  has_many :users, through: :event_memberships
+
   validates :name, presence: true
   validates :date, presence: true
   validates :city, presence: true

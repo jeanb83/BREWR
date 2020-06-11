@@ -11,7 +11,9 @@ class EventsController < ApplicationController
     if @event.stage == 1
       # Check if the stage 2 conditions are matched (will update stage to 2 if yes)
       if @event.check_stage_2_conditions?
-        # If yes reload show (and thus go to stage 2)
+        # If yes, log in the console
+        p "- UPSTAGED: Event #{@event.id} has been pushed to STAGE 2."
+        # And reload show recursively (and thus go to stage 2)
         show
       else
         # Event membership needed to assign to a vote, got it by user_id and event_id because each pair is unique
@@ -21,7 +23,9 @@ class EventsController < ApplicationController
     elsif @event.stage == 2
       # Check if the stage 3 conditions are matched (will update stage to 3 if yes)
       if @event.check_stage_3_conditions?
-        # If yes reload show (and thus go to stage 3)
+        # If yes, log in the console
+        p "- UPSTAGED: Event #{@event.id} has been pushed to STAGE 3."
+        # And reload show recursively (and thus go to stage 3)
         show
       else
         # Set the variables (same variables than stage 3)

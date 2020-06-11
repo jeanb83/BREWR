@@ -15,8 +15,8 @@ events_max_days_forward = 20
 # Votes variables
 stage_2_events_number = 3 # Inferior to minimum events_number * groups_number !
 stage_3_events_number = 1 # Inferior to stage_2_events_number !
-vote_types = Vote.get_vote_types
-vote_values = [-100, 0, 1]
+vote_tastes = Vote.get_vote_tastes
+vote_likes = [-100, 0, 1]
 # General seed variables
 last_users_number = 3 # Number of user emails to display at the end to access the website
 errors = 0 # Starting errors counter
@@ -24,20 +24,12 @@ errors = 0 # Starting errors counter
 # OPTIONS
 # Users
 clean_users = true
-if User.all.count >= users_number
-  seed_users = true # Don't touch
-else
-  seed_users = false # Don't touch
-end
+seed_users = true
 # Groups (requires users in db!)
 clean_groups = true
 seed_groups = true
 # Group Memberships (requires groups & users in db!)
-if clean_groups || clean_users
-  clean_group_memberships = true # Don't touch
-else
-  clean_group_memberships = false # Don't touch
-end
+clean_group_memberships = true
 seed_group_memberships = true
 # Messages (requires groups & users in db!)
 clean_messages = true
@@ -46,28 +38,17 @@ seed_messages = true
 clean_events = true
 seed_events = true
 # Event Memberships (requires groups & users in db!)
-if clean_groups || clean_users || clean_events
-  clean_event_memberships = true # Don't touch
-else
-  clean_event_memberships = false # Don't touch
-end
+clean_event_memberships = true
 seed_event_memberships = true
 # Votes (requires groups & users & events in db!)
-if clean_event_memberships
-  clean_votes = true # Don't touch
-else
-  clean_votes = false # Don't touch
-end
+clean_votes = true
 seed_votes = true
 # Notifications (requires users in db!)
 clean_notifications = true
 seed_notifications = true
 # Database
-if clean_users || clean_groups || clean_messages || clean_events || clean_votes || clean_notifications
-  clean_database = true # Don't touch
-else
-  clean_database = false # Don't touch
-end
+clean_database = true
+
 # Event Places
 clean_event_places = true
 seed_event_places = true
@@ -123,7 +104,7 @@ if clean_database
 
   if clean_event_memberships
     puts "-- Cleaning Event Memberships..."
-    EventMembershp.destroy_all
+    EventMembership.destroy_all
     puts "---- Done."
     alt_separator
   end
@@ -184,7 +165,7 @@ if seed_users
     user.nickname = "#{user.first_name}_#{rand(1..100)}"
     if user.valid?
       user.save
-      puts "-- User saved with email: #{user.email}"
+      puts "-- User saved with email: #{user.email} (password: 'password')"
     else
       puts "-- /!/ ERROR: Can't save user. Not valid."
       p user
@@ -209,7 +190,7 @@ if seed_groups
     group.title = "#{Faker::Hipster.word.capitalize}#{Faker::Team.creature.capitalize}"
     if group.valid?
       group.save
-      puts "-- Group saved with title: #{group.title}"
+      puts "-- Group saved with title: '#{group.title}'"
     else
       puts "-- /!/ ERROR: Can't save group. Not valid."
       p group
@@ -233,7 +214,7 @@ if seed_group_memberships
   Group.all.each do |group|
     group_size = rand(users_per_group[0]..users_per_group[1])
     group_members = User.all.sample(group_size)
-    puts "-- Adding #{group_size} users for group #{group.title}..."
+    puts "-- Adding #{group_size} users for Group '#{group.title}'..."
     group_members.each do |group_member|
       group_membership = GroupMembership.new
       group_membership.group = group
@@ -252,14 +233,14 @@ if seed_group_memberships
             errors += 1
           end
         end
-        puts "---- User #{group_membership.user.nickname} added to group #{group.title}."
+        puts "----  #{group.title}: User #{group_membership.user.nickname} added to group."
       else
         puts "---- /!/ ERROR: Can't save group membership. Not valid."
         p group_membership
         errors += 1
       end
     end
-  
+  end
   puts "\n-- Groups are now populated.\n\n"
   
   main_separator
@@ -275,7 +256,7 @@ if seed_messages
   Group.all.each do |group|
     group_members = group.users
     messages_number = rand(messages_per_group[0]..messages_per_group[1])
-    puts "-- Sending #{messages_number} messages in group #{group.title}..."
+    puts "-- Sending #{messages_number} messages in Group '#{group.title}'..."
     messages_number.times do
       message = Message.new
       message.group = group
@@ -283,13 +264,13 @@ if seed_messages
       message.content = Faker::Hipster.sentence
       if message.valid?
         message.save
-        puts "---- Message from #{message.user.nickname} sent in group #{group.title}."
+        puts "---- Group '#{group.title}': Message from User '#{message.user.nickname}' sent in group."
         # Send notification
         if seed_notifications
-          recipients = message.group
+          recipients = message.group.users
           recipients.each do |recipient|
             notification = Notification.new(user: recipient, importance: 0)
-            notification.content = "New message from #{recipient.nickname} in #{group.title}."
+            notification.content = "New message from User '#{recipient.nickname}' in Group '#{group.title}'."
             if notification.valid?
               notification.save
             else
@@ -305,7 +286,7 @@ if seed_messages
         errors += 1
       end
     end
-  
+  end
   puts "\n-- Messages have now been sent.\n\n"
   
   main_separator
@@ -320,24 +301,24 @@ if seed_events
   puts "CREATING EVENTS..."
   Group.all.each do |group|
     events_number = rand(events_per_group[0]..events_per_group[1])
-    puts "-- Creating #{events_number} events for group #{group.title}..."
+    puts "-- Creating #{events_number} events for Group '#{group.title}'..."
     events_number.times do
       event = Event.new
-      event.title = "#{Faker::Verb.base} #{Faker::Name.first_name}"
+      event.title = "#{Faker::Verb.base.capitalize} #{Faker::Name.first_name}"
       event.date = Faker::Date.forward(days: events_max_days_forward)
       event.group = group
       event.city = Faker::Address.city
       event.stage = 1
       if event.valid?
         event.save
-        puts "---- Event saved with title: #{event.title}"
+        puts "---- Event saved with title: '#{event.title}'"
       else
         puts "---- /!/ ERROR: Can't save event. Not valid."
         p event
         errors += 1
       end
     end
-  
+  end
   puts "\n-- Events are now created.\n\n"
   
   main_separator
@@ -353,7 +334,7 @@ if seed_event_memberships
   Event.all.each do |event|
     event_group = event.group
     event_members = event_group.users
-    puts "-- Adding #{event_members.count} users for event #{event.title}..."
+    puts "-- Adding #{event_members.count} users for Event '#{event.title}'..."
     event_members.each do |event_member|
       event_membership = EventMembership.new
       event_membership.event = event
@@ -361,11 +342,11 @@ if seed_event_memberships
       event_membership.status = true
       if event_membership.valid?
         event_membership.save
-        puts "---- User #{event_membership.user.nickname} added to event #{event.title}."
+        puts "---- Event '#{event.title}': User '#{event_membership.user.nickname}' added to event."
         # Send notification
         if seed_notifications
           notification = Notification.new(user: event_member, importance: 2)
-          notification.content = "You have been invited to this event: #{event.title}."
+          notification.content = "You have been invited to this event: '#{event.title}'."
           if notification.valid?
             notification.save
           else
@@ -380,7 +361,7 @@ if seed_event_memberships
         errors += 1
       end
     end
-  
+  end
   puts "\n-- Events are now populated.\n\n"
   
   main_separator
@@ -398,64 +379,64 @@ if seed_votes
   stage_3_events_number = stage_2_events_number if stage_3_events_number > stage_2_events_number
 
   puts "SIMULATING STAGE 1 VOTES..."
-  # Take a sample of groups of size defined before
-  stage_2_events = Group.where(stage: 1).sample(stage_2_events_number)
+  # Take a sample of events of size defined before
+  stage_2_events = Event.where(stage: 1).sample(stage_2_events_number)
   # For each event to upstage
   stage_2_events.each do |stage_2_event|
-    puts "-- Voting for #{stage_2_event.title}..."
     # Get all its memberships
-    stage_2_event_memberships = stage_2_event.group_memberships
+    stage_2_event_memberships = stage_2_event.event_memberships
     # For each membership
     stage_2_event_memberships.each do |stage_2_event_membership|
+      puts "-- Voting for Event '#{stage_2_event.title}' by User '#{stage_2_event_membership.user.nickname}'..."
       # Generate a vote for each type existing
-      vote_types.each do |vote_type|
+      vote_tastes.each do |vote_taste|
         vote = Vote.new
-        vote.group_membership = stage_2_event_membership
-        vote.type = vote_type
-        vote.value = vote_values.sample
+        vote.event_membership = stage_2_event_membership
+        vote.taste = vote_taste
+        vote.like = vote_likes.sample
         if vote.valid?
           vote.save
-          puts "---- Vote saved: #{vote.type} => #{vote.value}."
+          print "#{vote.taste} => #{vote.like} "
         else
           puts "---- /!/ ERROR: Can't save vote. Not valid."
           p vote
           errors += 1
         end
       end
+    end
+    # Check Stage 2 conditions
+    stage_2_event_votes = stage_2_event.votes.count
+    stage_2_event_users = stage_2_event.users.count
+    if stage_2_event_votes >= stage_2_event_users
+      # Upgrade to stage 2
+      stage_2_event.stage = 2
+      # Pick the random user
+      rand_user = stage_2_event.users.sample
+      stage_2_event.random_user_id = rand_user
+      # Save
+      stage_2_event.save
+      puts "\n\n---- Event '#{stage_2_event.title}' updated to Stage 2."
+      puts "---- User '#{rand_user.nickname}' has to make the booking.\n\n"
 
-      # Check Stage 2 conditions
-      stage_2_event_votes = stage_2_event.votes.count
-      stage_2_event_users = stage_2_event.users.count
-      if stage_2_event_votes >= stage_2_event_users
-        # Upgrade to stage 2
-        stage_2_event.stage = 2
-        # Pick the random user
-        stage_2_event.random_user = stage_2_event.users.sample
-        # Save
-        stage_2_event.update
-        puts "---- #{stage_2_event.title} updated to Stage 2."
-        puts "---- #{stage_2_event.random_user.nickname} has to make the booking."
-
-        # Send notification
-        if seed_notifications
-          stage_2_event_users.each do |u|
-            notification = Notification.new(user: u, importance: 1)
-            notification.content = "Votes session for #{stage_2_event.title} is complete!"
-            if notification.valid?
-              notification.save
-            else
-              puts "------ /!/ ERROR: Can't save notification. Not valid."
-              p notification
-              errors += 1
-            end
+      # Send notification
+      if seed_notifications
+        stage_2_event.users.each do |u|
+          notification = Notification.new(user: u, importance: 1)
+          notification.content = "Votes session for #{stage_2_event.title} is complete!"
+          if notification.valid?
+            notification.save
+          else
+            puts "------ /!/ ERROR: Can't save notification. Not valid."
+            p notification
+            errors += 1
           end
         end
-      else
-        puts "---- /!/ ERROR: Can't update event '#{stage_2_event.title}' to Stage 2."
-        p stage_2_event
-        p stage_2_event.votes
-        errors += 1
       end
+    else
+      puts "---- /!/ ERROR: Can't update event '#{stage_2_event.title}' to Stage 2."
+      p stage_2_event
+      p stage_2_event.votes
+      errors += 1
     end
   end
 end
@@ -470,45 +451,60 @@ if seed_event_places
   # Compile votes for each one
   stage_2_events.each do |stage_2_event|
     compiled_votes = {}
-    stage_2_event.votes.each do |vote|
-      vote.value = 0 if vote.value.nil?
-      compiled_votes[vote.type] += vote.value
+    # Initialize all tastes to 0
+    vote_tastes.each do |vote_taste|
+      compiled_votes[vote_taste] = 0
     end
-    stage_2_event_term = compiled_votes.max_by { |type, value| value }[0]
+    # Compile the votes
+    stage_2_event.votes.each do |vote|
+      compiled_votes[vote.taste] += vote.like
+    end
+    # Get the bigger vote
+    stage_2_event_term = compiled_votes.max_by { |taste, like| like }[0]
+    puts "\n\nEvent @#{stage_2_event.title}: Winning term: '#{stage_2_event_term}'"
 
-    stage_2_event_places = Yelp.search(stage_2_event_term, stage_2_event.city)[:businesses]
+    puts "\n\n> Calling Yelp API with term '#{stage_2_event_term}' and city '#{stage_2_event.city}'"
+
+    stage_2_event_places = Yelp.search(stage_2_event_term, stage_2_event.city)["businesses"]
+    if stage_2_event_places.empty?
+      puts "-- No API from Yelp :(\n\n"
+    else
+      puts "-- Got API response from Yelp :)\n\n"
+    end
     # Initialize rank
-    rank = 1
-    stage_2_event_places.each do |stage_2_event_place|
-      place = EventPlace.new
-      place.event = stage_2_event
-      place.yelp_name = stage_2_event_place["name"]
-      place.yelp_id = stage_2_event_place["id"]
-      place.yelp_price = stage_2_event_place["price"]
-      place.yelp_longitude = stage_2_event_place["coordinates"]["longitude"]
-      place.yelp_latitude = stage_2_event_place["coordinates"]["latitude"]
-      place.yelp_phone = stage_2_event_place["phone"]
-      place.yelp_address1 = stage_2_event_place["location"]["address1"]
-      place.yelp_address2 = stage_2_event_place["location"]["address2"]
-      place.yelp_address3 = stage_2_event_place["location"]["address3"]
-      place.yelp_city = stage_2_event_place["location"]["city"]
-      place.yelp_country = stage_2_event_place["location"]["country"]
-      place.yelp_zip_code = stage_2_event_place["location"]["zip_code"]
-      place.yelp_state = stage_2_event_place["location"]["state"]
-      place.yelp_url = stage_2_event_place["url"]
-      place.yelp_image_url = stage_2_event_place["image_url"]
-      place.yelp_rating = stage_2_event_place["rating"]
-      place.yelp_review_count = stage_2_event_place["review_count"]
-      place.rank = rank
-      rank += 1
-      # Try to save it
-      if place.valid?
-        place.save
-        puts "---- Yelp Event Place saved: #{place.yelp_name}."
-      else
-        puts "---- /!/ ERROR: Can't save Yelp Event Place. Not valid."
-        p place
-        errors += 1
+    if stage_2_event_places
+      rank = 1
+      stage_2_event_places.each do |stage_2_event_place|
+        place = EventPlace.new
+        place.event = stage_2_event
+        place.yelp_name = stage_2_event_place["name"]
+        place.yelp_id = stage_2_event_place["id"]
+        place.yelp_price = stage_2_event_place["price"]
+        place.yelp_longitude = stage_2_event_place["coordinates"]["longitude"]
+        place.yelp_latitude = stage_2_event_place["coordinates"]["latitude"]
+        place.yelp_phone = stage_2_event_place["phone"]
+        place.yelp_address1 = stage_2_event_place["location"]["address1"]
+        place.yelp_address2 = stage_2_event_place["location"]["address2"]
+        place.yelp_address3 = stage_2_event_place["location"]["address3"]
+        place.yelp_city = stage_2_event_place["location"]["city"]
+        place.yelp_country = stage_2_event_place["location"]["country"]
+        place.yelp_zip_code = stage_2_event_place["location"]["zip_code"]
+        place.yelp_state = stage_2_event_place["location"]["state"]
+        place.yelp_url = stage_2_event_place["url"]
+        place.yelp_image_url = stage_2_event_place["image_url"]
+        place.yelp_rating = stage_2_event_place["rating"]
+        place.yelp_review_count = stage_2_event_place["review_count"]
+        place.rank = rank
+        rank += 1
+        # Try to save it
+        if place.valid?
+          place.save
+          puts "---- Yelp Event Place saved: #{place.yelp_name}."
+        else
+          puts "---- /!/ ERROR: Can't save Yelp Event Place. Not valid."
+          p place
+          errors += 1
+        end
       end
     end
   end
@@ -519,7 +515,7 @@ end
 
 
 
-puts "END OF SEED - #{errors} error(s)."
+puts "\n\nEND OF SEED - #{errors} error(s)."
 
 main_separator
 
@@ -528,3 +524,4 @@ last_users = User.last(last_users_number)
 last_users.each do |u|
   puts "-- #{u.email} (password: 'password')"
 end
+puts "\n\n"

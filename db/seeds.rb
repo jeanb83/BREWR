@@ -466,7 +466,7 @@ if seed_event_places
     puts "\n\n> Calling Yelp API with term '#{stage_2_event_term}' and city '#{stage_2_event.city}'"
 
     stage_2_event_places = Yelp.search(stage_2_event_term, stage_2_event.city)["businesses"]
-    if stage_2_event_places.empty?
+    if stage_2_event_places.nil?
       puts "-- No API from Yelp :(\n\n"
     else
       puts "-- Got API response from Yelp :)\n\n"

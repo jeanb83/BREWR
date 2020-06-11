@@ -32,3 +32,12 @@ document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
 });
+
+$('.avatars').click(function(){
+  const avatarFile =$(this).attr('data-avatar')
+  $('#avatar').val(avatarFile)
+})
+
+
+
+

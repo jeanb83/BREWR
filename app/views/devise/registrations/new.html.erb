@@ -28,17 +28,19 @@
       <%= f.input :avatar_file, :as => :hidden,
                   required: true, input_html: { id: 'avatar' } %>
 
-<div class="container">
-  <div class="avatars" data-avatar = 'avatars/users/boy.svg'>
-    <%= image_tag "avatars/users/boy.svg", alt: "alttext" %>
-  </div>
-</div>
+    <div class="container">
+      <div class="avatars" data-avatar = 'avatars/users/boy.svg'>
+        <%= image_tag "avatars/users/boy.svg", alt: "alttext" %>
+      </div>
+    </div>
 
     <div class="form-actions">
       <%= f.button :submit, "Sign up", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
     </div>
   <% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
 
+  </div>
 </div>
+

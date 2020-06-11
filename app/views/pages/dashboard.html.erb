@@ -1,34 +1,20 @@
 <% @page_title = "Dashboard" %>
 
-
-<div class>
-  <ul>
-  <% @groups.event.each do |group.events| %>
-    <li><%= group.title %></li>
+<ul>
+  <% @events.each do |event| %>
+  <li><%= link_to event.title, event_path(event) %></li>
   <% end %>
 </ul>
-</div>
 
 
-<div class>
-  <ul>
-  <% @groups.each do |groups| %>
-    <li><%= group.title %></li>
+
+<ul>
+  <% @groups.each do |group| %>
+  <li><%= link_to group.title, group_path(group) %></li>
   <% end %>
 </ul>
+
+
+<div>
+   <%= link_to "Add a new group", new_group_path %>
 </div>
-
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <h1>Create a new group</h1>
-
-      <%= simple_form_for @group do |f| %>
-        <%= f.input :title %>
-        <%= f.input :avatar_file %>
-        <%= f.button :submit, class: 'btn btn-primary' %>
-      <% end %>
-    </div>
-  </div>
-</div>
-

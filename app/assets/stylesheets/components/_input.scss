@@ -1,0 +1,26 @@
+.bw_form-inputs-no-border input {
+  border: none;
+  border-bottom: 1px solid #c4c4c4;
+  box-shadow: none;
+  font-size: 12px;
+  text-align: center;
+  width: 80%;
+  display: inline;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: $light-gray;
+  }
+}
+
+.bw_form-inputs-no-border .form-group {
+  margin-bottom: 40px;
+}
+
+
+.form-check-input {
+  margin-left: 0rem;
+}

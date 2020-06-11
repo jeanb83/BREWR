@@ -1,25 +1,44 @@
-<h2>Sign up</h2>
+<div class="container my-5 text-center">
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+  <h2>Sign up</h2>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs my-5 bw_form-inputs-no-border align-self-center">
+      <%= f.input :first_name, label:'Enter your first name :', placeholder: 'type in  your first name ', input_html: { class: 'text-center' },
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "first_name" } %>
+      <%= f.input :last_name, label:'Enter your last name :', placeholder: 'type in  your last name ', input_html: { class: 'text-center' },
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "first_name" } %>
+      <%= f.input :email, label:'Enter your e-mail address :', placeholder: 'type in  your e-mail ', input_html: { class: 'text-center' },
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "email" } %>
+      <%= f.input :password, label: 'Enter your password :', placeholder: 'type in the password',
+                  required: true,
+                  hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                  input_html: { autocomplete: "new-password" } %>
+      <%= f.input :password_confirmation, label: 'Confirm your password :', placeholder: 'type in the password again',
+                  required: true,
+                  input_html: { autocomplete: "new-password" } %>
+      <%= f.input :avatar_file, :as => :hidden,
+                  required: true, input_html: { id: 'avatar' } %>
+
+<div class="container">
+  <div class="avatars" data-avatar = 'avatars/users/boy.svg'>
+    <%= image_tag "avatars/users/boy.svg", alt: "alttext" %>
   </div>
+</div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
+    <div class="form-actions">
+      <%= f.button :submit, "Sign up", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
+    </div>
+  <% end %>
 
 <%= render "devise/shared/links" %>
+
+</div>

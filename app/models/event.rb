@@ -8,7 +8,7 @@ class Event < ApplicationRecord
   has_many :users, through: :event_memberships
   has_many :votes, through: :event_memberships
 
-  validates :name, presence: true
+  validates :title, presence: true
   validates :date, presence: true
   validates :city, presence: true
 

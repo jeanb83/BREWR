@@ -1,6 +1,11 @@
 class GroupsController < ApplicationController
+  before_action :set_group, only: [:show, :edit, :update, :destroy]
+
   def show
-    @group = Group.find(params[:id])
+    @messages = Message.where(group_id: @group)
+    @message = Message.new
+    @users = GroupMembership.where(group_id: @group)
+    @events = Event.where(group_id: @group)
   end
 
   def new
@@ -9,32 +14,39 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
-    @group.save
      if @group.save
-      redirect_to group_path(@groups)
+      redirect_to group_path(@group)
     else
+      puts "- ERROR : failed to create group :"
+      p @group
       render 'new'
     end
   end
 
   def edit
-    @group = Group.find(params[:id])
   end
 
   def update
-    @group = Group.find(params[:id])
-    @group.update(group_params)
+    if @group.update(group_params)
+      redirect_to group_path(@group)
+    else
+      puts "- ERROR : failed to update group :"
+      p @group
+      render "edit"
+    end
   end
 
   def destroy
-    @group = Group.find(params[:id])
     @group.destroy
-    redirect_to groups_path
+    redirect_to dashboard_path
   end
 
 private
+  def set_group
+    @group = Group.find(params[:id])
+  end
 
   def group_params
-    params.require(:group).permit(:title)
+    params.require(:group).permit(:title, :avatar_file)
   end
 end

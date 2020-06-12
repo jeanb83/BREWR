@@ -1,0 +1,4 @@
+<%= simple_form_for [ @group, message ] do |f| %>
+    <%= f.input :content, class: "form-control", placeholder: "Your message..." %>
+    <%= f.submit "Send", class: "btn btn-primary" %>
+<% end %>

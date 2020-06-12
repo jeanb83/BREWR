@@ -8,14 +8,17 @@
     <% end %>
     
     <% if @show_bolt_button == true %>
-      <%= link_to "#" do %>
-        <i class="fas fa-bolt"></i>
-      <% end %>
+      <div class="p-relative">
+        <%= link_to new_group_event_path(@group), class: "bw_big-bolt-button d-flex justify-content-center align-items-center" do %>
+          <i class="fas fa-bolt"></i>
+        <% end %>
+      </div>
     <% end %>
     
     <%= link_to notifications_path do %>
       <i class="fas fa-bell"></i>
     <% end %>
+    
     <%= link_to "#" do %>
       <i class="fas fa-cog"></i>
     <% end %>

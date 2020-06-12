@@ -4,9 +4,9 @@ class Avatar
                    'lobster', 'coffee-cup', 'donut',
                    'egg', 'hamburger', 'chef']
 
-  GROUP_AVATARS = ['037-pizza', '026-ice-cream', '025-tea',
-                   '021-food', '018-disco', '016-cooking-pot',
-                   '015-cocktail', '012-cafe', '006-bbq']
+  GROUP_AVATARS = ['pizza', 'ice-cream', 'tea',
+                   'food', 'disco', 'cooking-pot',
+                   'cocktail', 'cafe', 'bbq']
 
   USER_AVATARS = ['superheroe', 'superheroe-1', 'spy',
                    'queen', 'man-1', 'king',

@@ -1,4 +1,6 @@
 <% @page_title = "Dashboard" %>
+<% @back_button = "logout" %>
+<% @cog_button = "user" %>
 
 <%= render "shared/navbar"  %>
 
@@ -7,7 +9,7 @@
 
   <ul>
     <% @events.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
+    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
     <% end %>
   </ul>
 
@@ -15,7 +17,7 @@
 
   <ul>
     <% @groups.each do |group| %>
-    <li><%= link_to group.title, group_path(group) %></li>
+    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
     <% end %>
   </ul>
 

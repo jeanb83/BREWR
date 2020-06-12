@@ -1,15 +1,31 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% @page_title = current_user.nickname %>
+<% @back_button = "dashboard" %>
+<% @show_bolt_button = true %>
+
+<%= render 'shared/navbar' %>
+<div class="container col-10 col-lg-4 d-flex flex-column justify-content-center my-5">
 
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="d-flex flex-column form-inputs my-3 bw_form-inputs-no-border justify-content-center text-center">
     <%= f.input :email, required: true, autofocus: true %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
-
+    <%= f.input :nickname, label:'Choose a nickname :', placeholder: 'Type in  your nickname ',
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "nickname" } %>
+    <%= f.input :first_name, label:'First Name', placeholder: 'Type in  your first name',
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "given-name" } %>
+    <%= f.input :last_name, label:'Last Name :', placeholder: 'Type in  your last name',
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "family-name" } %>
     <%= f.input :password,
                 hint: "leave it blank if you don't want to change it",
                 required: false,
@@ -21,15 +37,22 @@
                 hint: "we need your current password to confirm your changes",
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
-  </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
+    <%= f.input :avatar_file, :as => :hidden,
+                required: true, input_html: { id: 'avatar' } %>
+    <label class="string required">Choose your avatar: *</label>
+    <div class="avatars-container row row-cols-3">
+      <% @avatars = Avatar.get_user_avatars %>
+        <% @avatars.each do |avatar| %>
+          <div class="avatars col" data-avatar=<%="avatars/users/#{avatar}.svg"%>>
+            <%= show_svg("avatars/users/#{avatar}.svg") %>
+          </div>
+        <% end %>
+    </div>
   </div>
+    <%= f.button :submit, "Update", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3 class="text-center">Cancel my account</h3>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+<p class="text-center">Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>

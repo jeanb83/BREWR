@@ -117,6 +117,7 @@ GEM
       rake
     font-awesome-sass (5.13.0)
       sassc (>= 1.11)
+    gemoji (3.0.1)
     geocoder (1.6.3)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -299,6 +300,7 @@ DEPENDENCIES
   dotenv-rails
   faker!
   font-awesome-sass
+  gemoji
   geocoder
   http
   jbuilder (~> 2.7)

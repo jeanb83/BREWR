@@ -5,25 +5,38 @@
 
 <%= render 'shared/navbar' %>
 
-<div class="container d-flex flex-column justify-content-between">
-  <div class="d-flex flex-column justify-content-center align-items-center mt-4">
-    <h2>Events</h2>
-    <ul class="list-inline">
-      <li class="list-inline-item"><%= link_to "New event", new_group_event_path(@group) %></li>
-      <% @events.each do |event| %>
-      <li class="list-inline-item"><%= link_to event_path(event) do %><div class="avatar"><%= show_svg(event.avatar_file) %></div><% end %></li>
-      <% end %>
-    </ul>
-    
+<div class="container bw_auto-h-100 d-flex flex-column justify-content-between">
+  <div class="d-flex flex-column justify-content-center align-items-start mt-4">
+    <h2>🎂<%= @events.count %> Events</h2>
+    <div class="bw_carrousel">
+      <ul class="list-inline bw_carrousel">
+        <li class="list-inline-item"><%= link_to "New event", new_group_event_path(@group) %></li>
+        <% @events.each do |event| %>
+        <li class="list-inline-item"><%= link_to event_path(event) do %><div class="avatar"><%= show_svg(event.avatar_file) %></div><% end %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 
-  <div class="chat">
-    <h2>Messages</h2>
-    <% if @group.messages %>
-      <div class="messages border-top border-bottom border-primary">
-        <% @group.messages.each do |message| %>
+  <div class="d-flex flex-column justify-content-center align-items-start mt-2">
+    <h2>👨‍👨‍👦‍👦<%= @users.count %> Members</h2>
+    <div class="bw_carrousel">
+      <ul class="list-inline">
+        <li class="list-inline-item"><%= link_to "New member", new_group_group_membership_path(@group) %></li>
+        <% @users.each do |user| %>
+        <li class="list-inline-item"><div class="avatar"><%= show_svg(user.avatar_file) %></div></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="chat mt-2">
+    <h2>💌 Messages</h2>
+    <% if @messages %>
+      <div class="messages border-top border-bottom border-primary" id="messages">
+        <% @messages.each do |message| %>
           <div class="message mb-4">
-            <strong><%= message.user.nickname %></strong><small> on <%= message.created_at %></small>
+            <strong><%= message.user.nickname %></strong><small> on <%= message.created_at.strftime('%b %d at %R') %></small>
             <p><%= message.content %></p>
           </div>
         <% end %>

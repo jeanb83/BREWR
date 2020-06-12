@@ -4,9 +4,15 @@
   border-radius: 50%;
 }
 
-.avatars-container .avatars {
+.avatars {
   margin-bottom: 30px;
-
+  transition: all ease .2s;
+  &.active {
+    transform: scale(1.2);
+  }
+  & svg {
+    transition: all ease .2s;
+  }
   &.active svg {
     -webkit-filter: drop-shadow(0px 4px 0px $orange);
     filter: drop-shadow(0px 4px 0px $orange);

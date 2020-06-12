@@ -19,11 +19,11 @@
                   autofocus: true,
                   input_html: { autocomplete: "nickname" } %>
     <%= f.input :first_name, label:'First Name', placeholder: 'Type in  your first name',
-                  required: true,
+                  required: false,
                   autofocus: true,
                   input_html: { autocomplete: "given-name" } %>
     <%= f.input :last_name, label:'Last Name :', placeholder: 'Type in  your last name',
-                  required: true,
+                  required: false,
                   autofocus: true,
                   input_html: { autocomplete: "family-name" } %>
     <%= f.input :password,
@@ -52,6 +52,7 @@
   </div>
     <%= f.button :submit, "Update", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
 <% end %>
+</div>
 
 <h3 class="text-center">Cancel my account</h3>
 

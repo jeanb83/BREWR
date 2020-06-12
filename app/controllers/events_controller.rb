@@ -46,6 +46,7 @@ class EventsController < ApplicationController
   end
 
   def edit
+    @group = @event.group
   end
 
   def update

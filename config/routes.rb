@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :event_memberships, only: [:update] # As a user I can declare that I won't be coming for this event
 
   resources :group_memberships, only: [:destroy] # As a user I can leave a group
-  
+
   resources :notifications, only: [:index] # As a user I can see all my notifications
 
 end

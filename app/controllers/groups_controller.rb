@@ -2,10 +2,12 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   def show
-    @messages = Message.where(group_id: @group)
+    @messages = @group.messages
     @message = Message.new
-    @users = GroupMembership.where(group_id: @group)
-    @events = Event.where(group_id: @group)
+    @users = @group.users
+    @events = @group.events
+    @group_membership = GroupMembership.new
+    @all_users = User.all
   end
 
   def new

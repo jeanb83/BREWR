@@ -1,0 +1,23 @@
+<footer class="fixed-bottom w-100 border-top">
+  <div class="container d-flex justify-content-between align-items-center px-4 py-3">
+    <%= link_to dashboard_path do %>
+      <i class="fas fa-home"></i>
+    <% end %>
+    <%= link_to groups_path do %>
+      <i class="fas fa-users"></i>
+    <% end %>
+    
+    <% if @show_bolt_button == true %>
+      <%= link_to "#" do %>
+        <i class="fas fa-bolt"></i>
+      <% end %>
+    <% end %>
+    
+    <%= link_to notifications_path do %>
+      <i class="fas fa-bell"></i>
+    <% end %>
+    <%= link_to "#" do %>
+      <i class="fas fa-cog"></i>
+    <% end %>
+  </div>
+</footer>

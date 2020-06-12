@@ -1,18 +1,17 @@
-.bw_form-inputs-no-border input {
+.bw_form-inputs-no-border .form-control {
   border: none;
-  border-bottom: 1px solid #c4c4c4;
+  border-bottom: 2px solid #c4c4c4;
   box-shadow: none;
   font-size: 12px;
   text-align: center;
-  width: 80%;
-  display: inline;
 
   &:focus {
     box-shadow: none;
+    border-bottom: 2px solid $orange;
   }
 
   &::placeholder {
-    color: $light-gray;
+    color: lightgray;
   }
 }
 

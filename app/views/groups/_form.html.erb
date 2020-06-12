@@ -1,0 +1,11 @@
+<%= simple_form_for @group do |f| %>
+  <div class="d-flex flex-column form-inputs my-5 bw_form-inputs-no-border justify-content-center">
+    <%= f.error_notification %>
+    <%= f.input :title, label:'Enter your first name :', placeholder: 'type in  your first name ',
+                input_html: { class: 'text-center' },
+                required: true,
+                autofocus: true %>
+
+    <%= f.button :submit, class: 'btn btn-primary d-block' %>
+  </div>
+<% end %>

@@ -33,11 +33,21 @@ document.addEventListener('turbolinks:load', () => {
   // initSelect2();
 });
 
-$('.avatars').click(function(){
-  const avatarFile =$(this).attr('data-avatar')
+let avatars = Array.from(document.querySelectorAll('.avatars'));
+
+const handleClick = (e) => {
+  e.preventDefault();
+  avatars.forEach(node => {
+    node.classList.remove('active');
+  });
+  e.currentTarget.classList.add('active');
+  const avatarFile = $(this).attr('data-avatar');
   $('#avatar').val(avatarFile)
-})
+  console.log(avatarFile)
+}
+// const avatarFile =$(this).attr('data-avatar')
+// $('#avatar').val(avatarFile)
 
-
-
-
+avatars.forEach(node => {
+  node.addEventListener('click', handleClick)
+});

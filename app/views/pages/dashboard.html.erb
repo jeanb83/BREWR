@@ -1,5 +1,8 @@
-<%= render "devise/shared/navbar"  %>
+<%= render "shared/navbar"  %>
 <% @page_title = "Dashboard" %>
+
+
+<h2>Events</h2>
 
 <ul>
   <% @events.each do |event| %>
@@ -7,7 +10,7 @@
   <% end %>
 </ul>
 
-
+<h2>Groups</h2>
 
 <ul>
   <% @groups.each do |group| %>

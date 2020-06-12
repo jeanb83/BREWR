@@ -1,6 +1,10 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
+  def index
+    @groups = current_user.groups
+  end
+
   def show
     @messages = @group.messages
     @message = Message.new

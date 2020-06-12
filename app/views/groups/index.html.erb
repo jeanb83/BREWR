@@ -1,0 +1,7 @@
+<% @page_title = "My groups" %>
+
+<ul>
+  <% @groups.each do |group| %>
+    <li><%= group.title %></li>
+  <% end %>
+</ul>

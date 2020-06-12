@@ -9,6 +9,18 @@
     <%= f.input :city, label:'Event city :', placeholder: 'Type in the name of the city',
                 required: true,
                 autofocus: true %>
+    <%= f.input :avatar_file, :as => :hidden,
+                required: true, input_html: { id: 'avatar' } %>
+
+    <label class="string required">Choose your avatar: *</label>
+    <div class="mt-3 avatars-container row row-cols-3">
+      <% @avatars = Avatar.get_event_avatars %>
+        <% @avatars.each do |avatar| %>
+          <div class="avatars col" data-avatar=<%="avatars/events/#{avatar}.svg"%>>
+            <%= show_svg("avatars/events/#{avatar}.svg") %>
+          </div>
+        <% end %>
+    </div>
 
     <%= f.button :submit, class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
   </div>

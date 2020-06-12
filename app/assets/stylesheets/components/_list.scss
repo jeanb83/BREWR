@@ -1,4 +1,31 @@
 ul {
   list-style: none;
-  padding-inline-start: 00px;
+  padding-inline-start: 0px;
+}
+
+.bw_carrousel {
+  width: calc(100vw - 30px);
+
+  & .avatar {
+    height: 50px;
+    width: 50px;
+    transition: all ease .3s;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  & ul {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+    & li {
+      display: inline-block;
+      &:not(:last-child) {
+        margin-right: 15px;
+      }
+    }
+  }
 }

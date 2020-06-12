@@ -18,3 +18,23 @@
 .bw_form-inputs-no-border .form-group {
   margin-bottom: 40px;
 }
+
+.chat {
+  position: relative;
+
+  & .btn {
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+    transition: all ease .2s;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+  & .form-control {
+    height: 80px;
+    border: 0px;
+  }
+}

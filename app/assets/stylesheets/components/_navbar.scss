@@ -13,8 +13,14 @@
 
 nav {
   background: white;
+  height: 65px;
 }
 
 footer {
   background: white;
+  height: 60px;
+}
+
+.bw_auto-h-100 {
+  height: calc(100vh - 65px - 60px);
 }

@@ -6,7 +6,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @messages = @group.messages
+    @messages = @group.messages.order(created_at: :asc)
     @message = Message.new
     @users = @group.users
     @events = @group.events

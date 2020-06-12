@@ -1,4 +1,8 @@
 <%= simple_form_for [ @group, message ] do |f| %>
-    <%= f.input :content, class: "form-control", placeholder: "Your message..." %>
-    <%= f.submit "Send", class: "btn btn-primary" %>
+  <div class="bw_form-button-top d-flex flex-column">
+    <div class="d-flex justify-content-end align-items-center">
+      <%= button_tag type: 'submit', class: "btn btn-primary" do %><i class="fas fa-paper-plane"></i><% end %>
+    </div>
+    <%= f.input :content, class: "form-control", placeholder: "Your message...", label: false %>
+  </div>
 <% end %>

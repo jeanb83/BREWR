@@ -1,0 +1,19 @@
+<% @page_title = "Notifications" %>
+<% @show_bolt_button = false %>
+
+<%= render 'shared/navbar' %>
+
+<div class="container d-flex flex-column justify-content-center mt-5">
+    <% @notifications.each do |notification| %>
+      <div class="mb-4 border-bottom">
+        <% if notification.importance == 0 %>
+          <i class="far fa-envelope mr-2"></i>
+        <% elsif notification.importance == 1 %>
+          <i class="fas fa-exclamation text-warning mr-2"></i>
+        <% elsif notification.importance == 2 %>
+          <i class="fas fa-exclamation text-primary mr-2"></i>
+        <% end %>
+        <%= notification.content%>
+      </div>
+  <% end %>
+</div>

@@ -4,3 +4,20 @@
   letter-spacing: 1.5px;
   color: white;
 }
+
+.bw_big-bolt-button {
+  position: absolute;
+  background: $dark;
+  height: 60px;
+  width: 60px;
+  bottom: 10px;
+  left: calc(50% - 30px);
+  border-radius: 50%;
+  box-shadow: 0 0px 4px $dark;
+
+  & i {
+    display: block;
+    padding-left: 1px;
+    font-size: 30px;
+  }
+}

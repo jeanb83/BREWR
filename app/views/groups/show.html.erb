@@ -1,15 +1,33 @@
 <% @page_title = @group.title %>
+<% @navbar_option_button = "Edit@Group" %>
 <% @show_bolt_button = true %>
+
 <%= render 'shared/navbar' %>
 
-<div class="d-flex justify-content-center align-items-center">
-  <h2>Events</h2>
+<div class="container d-flex flex-column justify-content-between">
+  <div class="d-flex flex-column justify-content-center align-items-center mt-4">
+    <h2>Events</h2>
+    <ul>
+      <% @events.each do |event| %>
+      <li><%= link_to event.title, event_path(event) %></li>
+      <% end %>
+      <li><%= link_to "New event", new_group_event_path(@group) %></li>
+    </ul>
+  </div>
 
-  <ul>
-    <% @events.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
+  <div class="chat">
+    <h2>Messages</h2>
+    <% if @group.messages %>
+      <div class="messages">
+        <% @group.messages.each do |message| %>
+          <div class="message mb-4">
+            <strong><%= message.user.nickname %></strong><small> on <%= message.created_at %></small>
+            <p><%= message.content %></p>
+          </div>
+        <% end %>
+      </div>
     <% end %>
-  </ul>
+    <%= render "messages/new", group: @group, message: @message %>
+  </div>
 </div>
-
 <%= render 'shared/bottombar' %>

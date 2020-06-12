@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:new, :create]
   # before_action :authenticate_user!
 
   def show
@@ -12,7 +13,7 @@ class EventsController < ApplicationController
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
     # STAGE 2 (BOOKING)
     elsif @event.stage == 2
-        set_stage_2_3_variables
+      set_stage_2_3_variables
     # STAGE 3 (BOOKED)
     elsif @event.stage == 3
       set_stage_2_3_variables
@@ -26,8 +27,6 @@ class EventsController < ApplicationController
   def create
     # New event with name, date, city and avatar_file
     @event = Event.new(event_params)
-    # Set the group by the group_id in the url params
-    @group = Group.find(params[:group_id])
     # Assign the group to the new event
     @event.group = @group
     # Set the stage of the group to 1 (VOTES)
@@ -78,22 +77,13 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
-  def set_stage_2_3_variables
-    # Get the random user
-    @random_user = User.find(@event.random_user_id)
-    # Set the list of all the places of the event not full (booking_status not false), best is first
-    @event_places = EventPlaces.where(event_id: @event).where.not(booking_status: false).order(rank: :asc)
-    # Set the #1 event (the one displayed in the show)
-    @event_place = @event_places[0]
-    # Set the marker for the map
-    if @event_place.geocoded?
-      @markers = [{lat: @event_place.yelp_latitude, lng: @event_place.yelp_longitude}]
-    end
+  def set_group
+    @group = Group.find(params[:group_id])
   end
 
   def event_params
     # Whitelist params
-    params.require(:event).permit(:name, :date, :city, :avatar_file)
+    params.require(:event).permit(:title, :date, :city, :avatar_file)
   end
 
   # Method for auto-inviting all group members to an event

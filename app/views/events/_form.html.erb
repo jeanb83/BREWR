@@ -1,0 +1,15 @@
+<%= simple_form_for [ @group, @event ] do |f| %>
+  <div class="d-flex flex-column form-inputs my-3 bw_form-inputs-no-border justify-content-center text-center">
+    <%= f.input :title, label:'Event name :', placeholder: 'Type in the event name',
+                required: true,
+                autofocus: true %>
+    <%= f.input :date, label:'Event date :',
+                required: true,
+                autofocus: true %>
+    <%= f.input :city, label:'Event city :', placeholder: 'Type in the name of the city',
+                required: true,
+                autofocus: true %>
+
+    <%= f.button :submit, class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
+  </div>
+<% end %>

@@ -1,4 +1,21 @@
+<nav class="sticky-top w-100 border-bottom">
+  <div class="container d-flex justify-content-between align-items-center px-4 py-3">
+    <div class="avatar" data-avatar = 'avatars/users/boy.svg'>
+      <%= show_svg("avatars/users/boy.svg") %>
+    </div>
+    <h1><%= @page_title.length > 20 ? "#{@page_title[0..18]}..." : @page_title %></h1>
 
-<%= link_to "#", class: "navbar-brand" do %>
-  <i class="fas fa-home"></i>
-<% end %>
+    
+    <% if @navbar_option_button == "Edit@Event" %>
+        <%= link_to edit_event_path(@event) do %><i class="fas fa-cogs"></i><% end %>
+      <% elsif @navbar_option_button == "Edit@Group" %>
+        <%= link_to edit_group_path(@group) do %><i class="fas fa-users-cog"></i><% end %>
+      <% elsif @navbar_option_button == "Undo@Group" %>
+        <%= link_to dashboard_path do %><i class="fas fa-chevron-circle-left"></i><% end %>
+      <% elsif @navbar_option_button == "Undo@Event" %>
+        <%= link_to group_path(@group) do %><i class="fas fa-chevron-circle-left"></i><% end %>
+      <% else %>
+        <%= link_to edit_user_registration_path(current_user) do %><i class="fas fa-user-cog"></i><% end %>
+    <% end %>
+  </div>
+</nav>

@@ -1,4 +1,4 @@
-class Avatar < ApplicationRecord
+class Avatar
 
   EVENT_AVATARS = ['sushi', 'hot-dog', 'ice-cream',
                    'lobster', 'coffee-cup', 'donut',

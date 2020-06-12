@@ -1,5 +1,6 @@
 <% @page_title = @group.title %>
-<% @navbar_option_button = "Edit@Group" %>
+<% @back_button = "dashboard" %>
+<% @cog_button = "group" %>
 <% @show_bolt_button = true %>
 
 <%= render 'shared/navbar' %>
@@ -7,18 +8,19 @@
 <div class="container d-flex flex-column justify-content-between">
   <div class="d-flex flex-column justify-content-center align-items-center mt-4">
     <h2>Events</h2>
-    <ul>
+    <ul class="list-inline">
+      <li class="list-inline-item"><%= link_to "New event", new_group_event_path(@group) %></li>
       <% @events.each do |event| %>
-      <li><%= link_to event.title, event_path(event) %></li>
+      <li class="list-inline-item"><%= link_to event_path(event) do %><div class="avatar"><%= show_svg(event.avatar_file) %></div><% end %></li>
       <% end %>
-      <li><%= link_to "New event", new_group_event_path(@group) %></li>
     </ul>
+    
   </div>
 
   <div class="chat">
     <h2>Messages</h2>
     <% if @group.messages %>
-      <div class="messages">
+      <div class="messages border-top border-bottom border-primary">
         <% @group.messages.each do |message| %>
           <div class="message mb-4">
             <strong><%= message.user.nickname %></strong><small> on <%= message.created_at %></small>

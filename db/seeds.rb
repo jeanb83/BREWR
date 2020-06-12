@@ -2,19 +2,19 @@
 
 # SEED VARIABLES
 # Users variables
-users_number = 25
+users_number = 45
 # Groups variables
-groups_number = 7
+groups_number = 23
 # Group Memberships variables
 users_per_group = [2, 8]
 # Messages variables
 messages_per_group = [3, 18]
 # Events variables
-events_per_group = [1, 3]
+events_per_group = [2, 4]
 events_max_days_forward = 20
 # Votes variables
-stage_2_events_number = 3 # Inferior to minimum events_number * groups_number !
-stage_3_events_number = 1 # Inferior to stage_2_events_number !
+stage_2_events_number = 14 # Inferior to minimum events_number * groups_number !
+stage_3_events_number = 8 # Inferior to stage_2_events_number !
 vote_tastes = Vote.get_vote_tastes
 vote_likes = [-100, 0, 1]
 # General seed variables
@@ -163,6 +163,7 @@ if seed_users
     user.first_name = Faker::Name.first_name
     user.last_name = Faker::Name.first_name
     user.nickname = "#{user.first_name}_#{rand(1..100)}"
+    user.avatar_file = "avatars/users/#{Avatar.get_user_avatars.sample}.svg"
     if user.valid?
       user.save
       puts "-- User saved with email: #{user.email} (password: 'password')"
@@ -188,6 +189,7 @@ if seed_groups
   groups_number.times do
     group = Group.new
     group.title = "#{Faker::Hipster.word.capitalize}#{Faker::Team.creature.capitalize}"
+    group.avatar_file = "avatars/groups/#{Avatar.get_group_avatars.sample}.svg"
     if group.valid?
       group.save
       puts "-- Group saved with title: '#{group.title}'"
@@ -308,6 +310,7 @@ if seed_events
       event.date = Faker::Date.forward(days: events_max_days_forward)
       event.group = group
       event.city = Faker::Address.city
+      event.avatar_file = "avatars/events/#{Avatar.get_event_avatars.sample}.svg"
       event.stage = 1
       if event.valid?
         event.save

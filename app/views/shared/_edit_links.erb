@@ -1,0 +1,9 @@
+<% if @cog_button == "event" %>
+  <%= link_to edit_event_path(@event) do %><i class="fas fa-cog"></i><% end %>
+<% elsif @cog_button == "group" %>
+  <%= link_to edit_group_path(@group) do %><i class="fas fa-users-cog"></i><% end %>
+<% elsif @cog_button == "user" %>
+  <%= link_to edit_user_registration_path(current_user) do %><i class="fas fa-user-cog"></i><% end %>
+<% else %>
+  <div></div>
+<% end %>

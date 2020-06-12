@@ -13,10 +13,10 @@ class EventsController < ApplicationController
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
     # STAGE 2 (BOOKING)
     elsif @event.stage == 2
-      set_stage_2_3_variables
+      set_last_stages_variables
     # STAGE 3 (BOOKED)
     elsif @event.stage == 3
-      set_stage_2_3_variables
+      set_last_stages_variables
     end
   end
 
@@ -79,6 +79,11 @@ class EventsController < ApplicationController
 
   def set_group
     @group = Group.find(params[:group_id])
+  end
+
+  def set_last_stages_variables
+    @event_places = EventPlace.where(event_id: @event).where.not(booking_status: false)
+    @current_place = @event_places[0]
   end
 
   def event_params

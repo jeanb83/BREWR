@@ -1,0 +1,10 @@
+<%= simple_form_for @group do |f| %>
+  <div class="d-flex flex-column form-inputs my-5 bw_form-inputs-no-border justify-content-center text-center">
+    <%= f.error_notification %>
+    <%= f.input :title, label:'Group name :', placeholder: 'Type in the group name',
+                required: true,
+                autofocus: true %>
+
+    <%= f.button :submit, class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
+  </div>
+<% end %>

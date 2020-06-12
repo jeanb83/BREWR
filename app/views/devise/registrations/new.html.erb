@@ -1,45 +1,55 @@
-<div class="container my-5 text-center">
+<div class="container col-10 col-lg-4 d-flex flex-column justify-content-center my-5">
 
-  <h2>Sign up</h2>
+  <h1 class="text-center">Sign up</h1>
+  <%= render "devise/shared/links" %>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= f.error_notification %>
 
-    <div class="form-inputs my-5 bw_form-inputs-no-border align-self-center">
-      <%= f.input :first_name, label:'Enter your first name :', placeholder: 'type in  your first name ', input_html: { class: 'text-center' },
-                  required: true,
-                  autofocus: true,
-                  input_html: { autocomplete: "first_name" } %>
-      <%= f.input :last_name, label:'Enter your last name :', placeholder: 'type in  your last name ', input_html: { class: 'text-center' },
-                  required: true,
-                  autofocus: true,
-                  input_html: { autocomplete: "first_name" } %>
-      <%= f.input :email, label:'Enter your e-mail address :', placeholder: 'type in  your e-mail ', input_html: { class: 'text-center' },
+    <div class="d-flex flex-column form-inputs my-5 bw_form-inputs-no-border justify-content-center text-center">
+      <%= f.input :email, label:'Enter your e-mail address :', placeholder: 'Type in  your e-mail ',
                   required: true,
                   autofocus: true,
                   input_html: { autocomplete: "email" } %>
-      <%= f.input :password, label: 'Enter your password :', placeholder: 'type in the password',
+      <%= f.input :password, label: 'Enter your password :', placeholder: 'Type in the password',
                   required: true,
                   hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
                   input_html: { autocomplete: "new-password" } %>
-      <%= f.input :password_confirmation, label: 'Confirm your password :', placeholder: 'type in the password again',
+      <%= f.input :password_confirmation, label: 'Confirm your password :', placeholder: 'Type in the password again',
                   required: true,
                   input_html: { autocomplete: "new-password" } %>
+      <%= f.input :first_name, label:'Enter your first name :', placeholder: 'Type in  your first name ',
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "given-name" } %>
+      <%= f.input :last_name, label:'Enter your last name :', placeholder: 'Type in  your last name ',
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "family-name" } %>
       <%= f.input :avatar_file, :as => :hidden,
                   required: true, input_html: { id: 'avatar' } %>
 
-    <div class="container">
-      <div class="avatars" data-avatar = 'avatars/users/boy.svg'>
-        <%= image_tag "avatars/users/boy.svg", alt: "alttext" %>
+      <label class="string required">Choose your avatar: *</label>
+      <div class="avatars-container row row-cols-3">
+        <div class="avatars active col" data-avatar = 'avatars/users/boy.svg'>
+          <%= show_svg("avatars/users/boy.svg") %>
+        </div>
+        <div class="avatars col" data-avatar = 'avatars/users/boy.svg'>
+          <%= show_svg("avatars/users/boy.svg") %>
+        </div>
+        <div class="avatars col" data-avatar = 'avatars/users/boy.svg'>
+          <%= show_svg("avatars/users/boy.svg") %>
+        </div>
+        <div class="avatars col" data-avatar = 'avatars/users/boy.svg'>
+          <%= show_svg("avatars/users/boy.svg") %>
+        </div>
       </div>
-    </div>
 
-    <div class="form-actions">
-      <%= f.button :submit, "Sign up", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
-    </div>
-  <% end %>
+      <div class="form-actions">
+        <%= f.button :submit, "Sign up", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
+      </div>
+    <% end %>
 
-  <%= render "devise/shared/links" %>
 
   </div>
 </div>

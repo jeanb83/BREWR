@@ -9,31 +9,12 @@ class EventsController < ApplicationController
     @group = @event.group
     # STAGE 1 (VOTE)
     if @event.stage == 1
-      # Check if the stage 2 conditions are matched (will update stage to 2 if yes)
-      if @event.check_stage_2_conditions?
-        # If yes, log in the console
-        p "- UPSTAGED: Event #{@event.id} has been pushed to STAGE 2."
-        # And reload show recursively (and thus go to stage 2)
-        show
-      else
-        # Event membership needed to assign to a vote, got it by user_id and event_id because each pair is unique
-        @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
-      end
+      @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
     # STAGE 2 (BOOKING)
     elsif @event.stage == 2
-      # Check if the stage 3 conditions are matched (will update stage to 3 if yes)
-      if @event.check_stage_3_conditions?
-        # If yes, log in the console
-        p "- UPSTAGED: Event #{@event.id} has been pushed to STAGE 3."
-        # And reload show recursively (and thus go to stage 3)
-        show
-      else
-        # Set the variables (same variables than stage 3)
         set_stage_2_3_variables
-      end
     # STAGE 3 (BOOKED)
     elsif @event.stage == 3
-      # Set the variables (same variables than stage 2)
       set_stage_2_3_variables
     end
   end

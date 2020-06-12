@@ -7,7 +7,9 @@ class User < ApplicationRecord
   has_many :group_memberships, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :event_memberships, dependent: :destroy
-  has_many :events, through: :event_memberships
+  has_many :notifications, dependent: :destroy
+
+   has_many :events, through: :event_memberships
   has_many :groups, through: :group_memberships
 
   validates :nickname, presence: true, uniqueness: true

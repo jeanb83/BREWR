@@ -14,7 +14,16 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
+    # Set current user as Owner of the group
+    @group.owner_id = current_user
+
      if @group.save
+      # Invite the owner
+      @group_membership = GroupMembership.new
+      @group_membership.user = current_user
+      @group_membership.group = @group
+      @group_membership.save
+      # And redirects
       redirect_to group_path(@group)
     else
       puts "- ERROR : failed to create group :"

@@ -33,21 +33,23 @@ document.addEventListener('turbolinks:load', () => {
   // initSelect2();
 });
 
-let avatars = Array.from(document.querySelectorAll('.avatars'));
 
+let avatars = Array.from(document.querySelectorAll('.avatars'));
+// Add class active to last clicked avatar
 const handleClick = (e) => {
   e.preventDefault();
   avatars.forEach(node => {
     node.classList.remove('active');
   });
   e.currentTarget.classList.add('active');
-  const avatarFile = $(this).attr('data-avatar');
-  $('#avatar').val(avatarFile)
-  console.log(avatarFile)
 }
-// const avatarFile =$(this).attr('data-avatar')
-// $('#avatar').val(avatarFile)
-
+// Set avatar file name as value for hidden field
+$('.avatars').click(function () {
+  const avatarFile = $(this).attr('data-avatar')
+  $('#avatar').val(avatarFile)
+  console.log(avatarFile);
+})
+// Listen to clicks on avatars
 avatars.forEach(node => {
   node.addEventListener('click', handleClick)
 });

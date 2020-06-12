@@ -4,7 +4,18 @@
     <%= f.input :title, label:'Group name :', placeholder: 'Type in the group name',
                 required: true,
                 autofocus: true %>
+    <%= f.input :avatar_file, :as => :hidden,
+                required: true, input_html: { id: 'avatar' } %>
 
+    <label class="string required">Choose your avatar: *</label>
+    <div class="avatars-container row row-cols-3">
+      <% @avatars = Avatar.get_group_avatars %>
+        <% @avatars.each do |avatar| %>
+          <div class="avatars col" data-avatar=<%="avatars/users/#{avatar}.svg"%>>
+            <%= show_svg("avatars/users/#{avatar}.svg") %>
+          </div>
+        <% end %>
+    </div>
     <%= f.button :submit, class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
   </div>
 <% end %>

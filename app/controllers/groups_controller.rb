@@ -19,10 +19,7 @@ class GroupsController < ApplicationController
 
      if @group.save
       # Invite the owner
-      @group_membership = GroupMembership.new
-      @group_membership.user = current_user
-      @group_membership.group = @group
-      @group_membership.save
+      invite_group_owner(@group)
       # And redirects
       redirect_to group_path(@group)
     else
@@ -57,5 +54,12 @@ private
 
   def group_params
     params.require(:group).permit(:title, :avatar_file)
+  end
+
+  def invite_group_owner(group)
+    @group_membership = GroupMembership.new
+    @group_membership.user = current_user
+    @group_membership.group = @group
+    @group_membership.save
   end
 end

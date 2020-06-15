@@ -1,7 +1,19 @@
-<% @page_title = "My groups" %>
+<% @page_title = "Your groups" %>
+<% @back_button = "logout" %>
+<% @cog_button = "user" %>
+
+<%= render "shared/navbar"  %>
 
 <ul>
-  <% @groups.each do |group| %>
-    <li><%= group.title %></li>
-  <% end %>
-</ul>
+    <% @groups.each do |group| %>
+    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
+    <% end %>
+  </ul>
+
+
+<div>
+    <%= link_to "Add a new group", new_group_path %>
+  </div>
+
+
+<%= render "shared/bottombar"  %>

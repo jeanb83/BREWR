@@ -1,5 +1,5 @@
 class Vote < ApplicationRecord
-  VOTE_TASTES = ["Bistros", "Breakfast & Brunch", "Burgers", "Chinese",
+  VOTE_TASTES = ["Bistros", "Brunch", "Burgers", "Chinese",
                  "French", "Indian", "Italian", "Japanese", "Korean",
                  "Pizza", "Sushi", "Thai", "Vegan"]
 

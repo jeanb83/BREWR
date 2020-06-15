@@ -1,11 +1,11 @@
 <% if @back_button == "group" %>
-  <%= link_to group_path(@group) do %><i class="fas fa-chevron-circle-left"></i><% end %>
+  <%= link_to group_path(@group) do %><i class="fas fa-users"></i><% end %>
 <% elsif @back_button == "event" %>
   <%= link_to event_path(@event) do %><i class="fas fa-chevron-circle-left"></i><% end %>
 <% elsif @back_button == "dashboard" %>
-  <%= link_to dashboard_path do %><i class="fas fa-chevron-circle-left"></i><% end %>
+  <%= link_to dashboard_path do %><i class="fas fa-home"></i><% end %>
 <% elsif @back_button == "logout" %>
-  <%= link_to destroy_user_session_path do %><i class="fas fa-sign-out-alt"></i><% end %>
+  <%= link_to destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } do %><i class="fas fa-sign-out-alt"></i><% end %>
 <% else %>
   <div></div>
 <% end %>

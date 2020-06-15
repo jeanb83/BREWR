@@ -9,7 +9,7 @@
 
   <ul>
     <% @events.each do |event| %>
-    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
+    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to "#{event.title} (#{event.stage})", event_path(event) %></li>
     <% end %>
   </ul>
 

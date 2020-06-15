@@ -14,22 +14,6 @@ class Event < ApplicationRecord
 
   after_create :set_stage_to_zero
 
-  def check_stage_2_conditions?
-    if @votes.count >= @event_memberships.where.not(status: false).count
-      @stage = 2
-      save
-      return true
-    end
-  end
-
-  def check_stage_3_conditions?
-    unless EventPlaces.where(event_id: @event).where(booking_status: true).empty?
-      @stage = 3
-      save
-      return true
-    end
-  end
-
   private
 
   def set_stage_to_zero

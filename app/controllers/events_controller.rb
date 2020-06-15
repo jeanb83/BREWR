@@ -10,12 +10,6 @@ class EventsController < ApplicationController
     @group = @event.group
     # STAGE 1 (VOTE)
     if @event.stage == 1
-      @vote = Vote.new
-      @tastes = Vote.get_vote_tastes
-      @tastes.each do |taste|
-        taste = taste.gsub(" ", "_").gsub("&", "n")
-        instance_variable_set("@" + "vote_" + taste, Vote.new)
-      end
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
     # STAGE 2 (BOOKING)
     elsif @event.stage == 2
@@ -89,8 +83,9 @@ class EventsController < ApplicationController
   end
 
   def set_last_stages_variables
-    @event_places = EventPlace.where(event_id: @event).where.not(booking_status: false)
-    @current_place = @event_places[0]
+    @event_places = @event.event_places.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
+    @event_place = @event_places[0]
+    puts @event_place
   end
 
   def event_params

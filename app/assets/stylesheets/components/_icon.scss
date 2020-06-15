@@ -3,3 +3,43 @@ position: absolute;
 top: 5px;
 right: 5px;
 }
+
+.bw_event-vote {
+  & span {
+    font-family: $headers-font;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  & .avatars {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    margin-right: 15px;
+  }
+}
+
+.bw_event-likes {
+  & i {
+    font-size: 28px;
+    color: $dark;
+    opacity: .5;
+  }
+  &.active i {
+    opacity: 1;
+  }
+
+  &.active i.fa-angry {
+    color: $red;
+  }
+  &.active i.fa-meh {
+    color: $orange;
+  }
+  &.active i.fa-grin-hearts {
+    color: $green;
+  }
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+}

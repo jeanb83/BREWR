@@ -10,6 +10,12 @@ class EventsController < ApplicationController
     @group = @event.group
     # STAGE 1 (VOTE)
     if @event.stage == 1
+      @vote = Vote.new
+      @tastes = Vote.get_vote_tastes
+      @tastes.each do |taste|
+        taste = taste.gsub(" ", "_").gsub("&", "n")
+        instance_variable_set("@" + "vote_" + taste, Vote.new)
+      end
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
     # STAGE 2 (BOOKING)
     elsif @event.stage == 2

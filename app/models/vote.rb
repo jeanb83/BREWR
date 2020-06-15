@@ -35,6 +35,8 @@ class Vote < ApplicationRecord
       end
       # Get the bigger vote and store in events term column
       @event.term = @compiled_votes.max_by { |taste, like| like }[0]
+      # Pass event to stage 2
+      @event.stage = 2
       # Save
       @event.save
     end

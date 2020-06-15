@@ -10,7 +10,7 @@
     <h2>🎂<%= @events.count %> Events</h2>
     <div class="bw_carrousel">
       <ul class="list-inline">
-        <li class="list-inline-item"><%= link_to "New event", new_group_event_path(@group) %></li>
+        <li class="list-inline-item"><%= link_to new_group_event_path(@group) do %><div class="avatar"><%= show_svg("avatars/plus.svg") %></div><% end %></li>
         <% @events.each do |event| %>
         <li class="list-inline-item"><%= link_to event_path(event) do %><div class="avatar"><%= show_svg(event.avatar_file) %></div><% end %></li>
         <% end %>
@@ -22,7 +22,7 @@
     <h2>👨‍👨‍👦‍👦<%= @users.count %> Members</h2>
     <div class="bw_carrousel">
       <ul class="list-inline">
-        <li class="list-inline-item"><%= link_to "New member", new_group_group_membership_path(@group) %></li>
+        <li class="list-inline-item"><%= link_to new_group_group_membership_path(@group) do %><div class="avatar"><%= show_svg("avatars/plus.svg") %></div><% end %></li>
         <% @users.each do |user| %>
         <li class="list-inline-item"><div class="avatar"><%= show_svg(user.avatar_file) %></div></li>
         <% end %>

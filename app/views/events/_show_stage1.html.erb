@@ -1,0 +1,35 @@
+<strong class="text-center bw_countdown my-4">01:00:00</strong>
+<strong class="text-center">Vote by clicking on the faces.</strong>
+
+<%= form_tag event_votes_path(@event), method: :post do |f| %>
+  <% Vote::VOTE_TASTES.each do |taste| %>
+    <div class="d-flex justify-content-between align-items-center py-4 bw_event-vote">
+      <div>
+        <div class="avatars">
+          <%= show_svg("avatars/events/sushi.svg") %>
+        </div>
+        <span><%= taste %></span>
+      </div>
+      <div>
+        <% taste_formatted = taste.gsub(" ", "_") %>
+        <div class="d-flex justify-content-center align-items-center bw_event-likes-container">
+          <input type="text" name="tastes[<%= taste_formatted %>]" value="0" id="<%= taste_formatted %>_like" hidden>
+
+          <div class="bw_event-likes <%= taste_formatted %>" data-taste="<%= taste_formatted %>" data-tastelike="-100">
+            <i class="far fa-angry"></i>
+          </div>
+          <div class="bw_event-likes active <%= taste_formatted %>" data-taste="<%= taste_formatted %>" data-tastelike="0">
+            <i class="far fa-meh"></i>
+          </div>
+          <div class="bw_event-likes <%= taste_formatted %>" data-taste="<%= taste_formatted %>" data-tastelike="1">
+            <i class="far fa-grin-hearts"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <input type="submit" value="Confirm" class="btn btn-primary w-100 fixed-bottom btn-lg rounded-0 mb-5 pb-4">
+<% end %>
+
+
+

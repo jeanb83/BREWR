@@ -1,8 +1,8 @@
 class Avatar
 
-  EVENT_AVATARS = ['sushi', 'hot-dog', 'ice-cream',
-                   'lobster', 'coffee-cup', 'donut',
-                   'egg', 'hamburger', 'chef']
+  EVENT_AVATARS = ['vip', 'party-planner', 'mask',
+                   'hand', 'garland', 'disco-ball',
+                   'crown', 'bow', 'balloons']
 
   GROUP_AVATARS = ['pizza', 'ice-cream', 'tea',
                    'food', 'disco', 'cooking-pot',

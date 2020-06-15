@@ -19,12 +19,8 @@
     <% @groups.each do |group| %>
     <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
     <% end %>
+    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg("avatars/plus.svg") %></div><%= link_to "Add a new group", new_group_path %></li>
   </ul>
-
-
-  <div>
-    <%= link_to "Add a new group", new_group_path %>
-  </div>
 </div>
 
-<%= render "shared/bottombar"  %>
+<%= render "shared/bottombar"%>

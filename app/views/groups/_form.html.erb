@@ -10,7 +10,7 @@
     <div class="mt-3 avatars-container row row-cols-3">
       <% @avatars = Avatar.get_group_avatars %>
         <% @avatars.each do |avatar| %>
-          <div class="avatars col" data-avatar=<%="avatars/groups/#{avatar}.svg"%>>
+          <div class="avatars col" data-avatar=<%= "avatars/groups/#{avatar}.svg" %>>
             <%= show_svg("avatars/groups/#{avatar}.svg") %>
           </div>
         <% end %>

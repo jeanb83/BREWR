@@ -9,7 +9,7 @@
   <div class="d-flex flex-column justify-content-center align-items-start mt-4">
     <h2>🎂<%= @events.count %> Events</h2>
     <div class="bw_carrousel">
-      <ul class="list-inline bw_carrousel">
+      <ul class="list-inline">
         <li class="list-inline-item"><%= link_to "New event", new_group_event_path(@group) %></li>
         <% @events.each do |event| %>
         <li class="list-inline-item"><%= link_to event_path(event) do %><div class="avatar"><%= show_svg(event.avatar_file) %></div><% end %></li>

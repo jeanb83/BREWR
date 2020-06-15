@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_130615) do
+ActiveRecord::Schema.define(version: 2020_06_15_091739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_130615) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "avatar_file"
     t.integer "random_user_id"
+    t.string "term"
     t.index ["group_id"], name: "index_events_on_group_id"
   end
 

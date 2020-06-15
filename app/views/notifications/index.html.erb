@@ -3,7 +3,7 @@
 
 <%= render 'shared/navbar' %>
 
-<div class="container d-flex flex-column justify-content-center mt-5">
+<div class="container d-flex flex-column justify-content-center mt-4">
     <% @notifications.each do |notification| %>
       <div class="mb-4 border-bottom">
         <% if notification.importance == 0 %>
@@ -17,3 +17,4 @@
       </div>
   <% end %>
 </div>
+<%= render "shared/bottombar"%>

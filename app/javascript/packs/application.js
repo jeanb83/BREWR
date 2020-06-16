@@ -35,3 +35,4 @@ document.addEventListener('turbolinks:load', () => {
   avatarClick();
   likeClick();
 });
+

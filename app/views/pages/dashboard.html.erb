@@ -4,36 +4,39 @@
 
 <%= render "shared/navbar"  %>
 
-<div class="container mt-4 bw_padding-bottom-1">
+<div class="container d-flex flex-column justify-content-center bw_padding-bottom-1">
   <h2>Events</h2>
-  <ul>
-    <div class="">
-
-    <% @events.each do |event| %>
-      <div class="d-flex flex-row justify-content-between">
-        <div class="">
-        <li><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
-        </div>
-        <div class="">
-        <span class="bw_event_dates"><i class="fas fa-calendar"></i> <%= event.date %></span>
-        </div>
+  <% @events.order(date: :asc).limit(5).each do |event| %>
+    <div class="bw_notification d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+      <div class="col-2 pl-0">
+        <%= show_svg(event.avatar_file) %>
       </div>
-    
-    <% end %>
+      <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+        <strong><%= link_to event.title, event_path(event) %></strong>
+        <small class="text-muted"><%= event.date.strftime("%b %d") %></small>
+      </div>
     </div>
-  </ul>
+  <% end %>
 
-  <h2>Groups</h2>
-
-  <ul>
-    <% @groups.each do |group| %>
-      <div class="card">
-        <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
-        <span class="bw_group_members"><i class="fas fa-user-friends"></i> <%= group.group_memberships.count %></span>
+  <h2 class="mt-4">Groups</h2>
+    <% @groups.order(created_at: :desc).each do |group| %>
+      <div class="bw_notification d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+        <div class="col-2 pl-0">
+          <%= show_svg(group.avatar_file) %>
+        </div>
+        <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+          <strong><%= link_to group.title, group_path(group) %></strong>
+          <small class="text-muted"><i class="fas fa-user-friends"></i> <%= group.group_memberships.count %></small>
+        </div>
       </div>
     <% end %>
-    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg("avatars/plus.svg") %></div><%= link_to "Add a new group", new_group_path %></li>
-  </ul>
+    <div class="bw_notification d-flex flex-row justify-content-left align-items-center py-3 px-0">
+
+    <div class="col-2 pl-0">
+      <%= show_svg("avatars/plus.svg") %>
+    </div>
+    <strong> <%= link_to "Add a new group", new_group_path %></strong>
+  </div>
 </div>
 <%= render "shared/bottombar"%>
 

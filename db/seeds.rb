@@ -18,7 +18,7 @@ stage_3_events_number = 8 # Inferior to stage_2_events_number !
 vote_tastes = Vote.get_vote_tastes
 vote_likes = [-100, 0, 1]
 # General seed variables
-last_users_number = 3 # Number of user emails to display at the end to access the website
+last_users_number = 10 # Number of user emails to display at the end to access the website
 errors = 0 # Starting errors counter
 
 # OPTIONS
@@ -81,63 +81,63 @@ main_separator
 if clean_database
   puts "CLEANING DATABASE..."
 
-  if clean_notifications
+  if clean_notifications == true
     puts "-- Cleaning Notifications..."
     Notification.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_event_places
+  if clean_event_places == true
     puts "-- Cleaning Event Places..."
     EventPlace.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_votes
+  if clean_votes == true
     puts "-- Cleaning Votes..."
     Vote.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_event_memberships
+  if clean_event_memberships == true
     puts "-- Cleaning Event Memberships..."
     EventMembership.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_events
+  if clean_events == true
     puts "-- Cleaning Events..."
     Event.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_messages
+  if clean_messages == true
     puts "-- Cleaning Messages..."
     Message.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_group_memberships
+  if clean_group_memberships == true
     puts "-- Cleaning Group Memberships..."
     GroupMembership.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_groups
+  if clean_groups == true
     puts "-- Cleaning Groups..."
     Group.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_users
+  if clean_users == true
     puts "-- Cleaning Users..."
     User.destroy_all
     puts "---- Done."
@@ -225,7 +225,7 @@ if seed_group_memberships
         group_membership.save
         # Send notification
         if seed_notifications
-          notification = Notification.new(user: group_member, importance: 2)
+          notification = Notification.new(user: group_member, from_model: "group", from_model_avatar_file: group.avatar_file)
           notification.content = "You have been invited as a member of #{group.title}."
           if notification.valid?
             notification.save
@@ -271,8 +271,8 @@ if seed_messages
         if seed_notifications
           recipients = message.group.users
           recipients.each do |recipient|
-            notification = Notification.new(user: recipient, importance: 0)
-            notification.content = "New message from User '#{recipient.nickname}' in Group '#{group.title}'."
+            notification = Notification.new(user: recipient, from_model: "user", from_model_avatar_file: message.user.avatar_file)
+            notification.content = "New message from User '#{message.user.nickname}' in Group '#{group.title}'."
             if notification.valid?
               notification.save
             else
@@ -348,8 +348,8 @@ if seed_event_memberships
         puts "---- Event '#{event.title}': User '#{event_membership.user.nickname}' added to event."
         # Send notification
         if seed_notifications
-          notification = Notification.new(user: event_member, importance: 2)
-          notification.content = "You have been invited to this event: '#{event.title}'."
+          notification = Notification.new(user: event_member, from_model: "event", from_model_avatar_file: event.avatar_file)
+          notification.content = "You have been invited to this event: '#{event.title}' on #{event.date.strftime("%b %d")}."
           if notification.valid?
             notification.save
           else
@@ -399,7 +399,7 @@ if seed_votes
         vote.like = vote_likes.sample
         if vote.valid?
           vote.save
-          print "#{vote.taste} => #{vote.like} "
+          print "#{vote.taste} => #{vote.like}"
         else
           puts "---- /!/ ERROR: Can't save vote. Not valid."
           p vote
@@ -424,8 +424,8 @@ if seed_votes
       # Send notification
       if seed_notifications
         stage_2_event.users.each do |u|
-          notification = Notification.new(user: u, importance: 1)
-          notification.content = "Votes session for #{stage_2_event.title} is complete!"
+          notification = Notification.new(user: u, from_model: "event", from_model_avatar_file: stage_2_event.avatar_file)
+          notification.content = "Voting session for #{stage_2_event.title} is complete! #{rand_user.nickname} will now make the booking."
           if notification.valid?
             notification.save
           else
@@ -525,6 +525,9 @@ main_separator
 puts "Here are the last #{last_users_number} user accounts for accessing the website:"
 last_users = User.last(last_users_number)
 last_users.each do |u|
-  puts "-- #{u.email} (password: 'password')"
+  puts "-- #{u.nickname}: #{u.email} (password: 'password')"
+  puts "---- Groups: #{u.groups.count}"
+  puts "---- Events : #{u.events.count}"
+  puts "---- Stage 2 : #{u.events.where(stage: 2).count ? u.events.where(stage: 2).count : 0}\n\n"
 end
 puts "\n\n"

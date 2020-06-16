@@ -28,7 +28,6 @@ import "bootstrap";
 // Internal imports, e.g:
 import { avatarClick } from '../components/avatar_click';
 import { likeClick } from '../components/like_click';
-// import { initSelect2 } from '../components/init_select2';
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
@@ -37,24 +36,3 @@ document.addEventListener('turbolinks:load', () => {
   likeClick();
 });
 
-let avatars = Array.from(document.querySelectorAll('.avatars'));
-// Add class active to last clicked avatar
-const avatarClick = (event) => {
-  // Remove "active" class for every items in the list
-  avatars.forEach(node => {
-    node.classList.remove('active');
-  });
-  // Add "active" class for last clicked avatar
-  event.currentTarget.classList.add('active');
-  // Get dataset value of last clicked avatar
-  const avatarFile = event.currentTarget.dataset.avatar;
-  // Set hidden form field value to that value
-  document.getElementById('avatar').value = avatarFile;
-  console.log(avatarFile);
-}
-
-// Listen to clicks on avatars
-const listenAvatarClicks = () => avatars.forEach(node => {
-  node.addEventListener('click', avatarClick);
-  console.log("Loaded.");
-});

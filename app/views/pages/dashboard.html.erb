@@ -4,15 +4,19 @@
 
 <%= render "shared/navbar"  %>
 
-<div class="container mt-4 mb-5">
+<div class="container mt-4">
   <h2>Events</h2>
   <ul>
-    <div class="cards">
+    <div class="">
 
     <% @events.each do |event| %>
-      <div class="card-product">
-        <li class="d-flex align-items-center "><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="">
+        <li><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
+        </div>
+        <div class="">
         <span class="bw_event_dates"><i class="fas fa-calendar"></i> <%= event.date %></span>
+        </div>
       </div>
     <% end %>
     </div>
@@ -22,7 +26,7 @@
 
   <ul>
     <% @groups.each do |group| %>
-      <div class="card-product">
+      <div class="card">
         <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
         <span class="bw_group_members"><i class="fas fa-user-friends"></i> <%= group.group_memberships.count %></span>
       </div>

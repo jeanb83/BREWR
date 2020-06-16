@@ -16,11 +16,11 @@ class User < ApplicationRecord
 
   def has_voted?(event)
     membership = EventMembership.find_by(user_id: self, event_id: event)
-    user_votes = membership.votes.empty?
-    if user_votes.nil?
-      return false
+    user_votes = membership.votes
+    if !user_votes.empty?
+      true
     else
-      return true
+      false
     end
   end
 end

@@ -81,63 +81,63 @@ main_separator
 if clean_database
   puts "CLEANING DATABASE..."
 
-  if clean_notifications
+  if clean_notifications == true
     puts "-- Cleaning Notifications..."
     Notification.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_event_places
+  if clean_event_places == true
     puts "-- Cleaning Event Places..."
     EventPlace.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_votes
+  if clean_votes == true
     puts "-- Cleaning Votes..."
     Vote.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_event_memberships
+  if clean_event_memberships == true
     puts "-- Cleaning Event Memberships..."
     EventMembership.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_events
+  if clean_events == true
     puts "-- Cleaning Events..."
     Event.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_messages
+  if clean_messages == true
     puts "-- Cleaning Messages..."
     Message.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_group_memberships
+  if clean_group_memberships == true
     puts "-- Cleaning Group Memberships..."
     GroupMembership.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_groups
+  if clean_groups == true
     puts "-- Cleaning Groups..."
     Group.destroy_all
     puts "---- Done."
     alt_separator
   end
 
-  if clean_users
+  if clean_users == true
     puts "-- Cleaning Users..."
     User.destroy_all
     puts "---- Done."

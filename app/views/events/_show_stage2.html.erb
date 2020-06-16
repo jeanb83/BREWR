@@ -1,1 +1,7 @@
-<%= p @event_place %>
+<div class="container d-flex flex-column justify-content-center align-items-center mt-4 bw_padding-bottom-2">
+  <strong class="text-muted">You have to book:</strong>
+
+  <%= image_tag @event_place.yelp_image_url, class: "bw_event-cover bw_image-round my-4" %>
+
+  <h2><%= @event_place.yelp_name %></h2>
+</div>

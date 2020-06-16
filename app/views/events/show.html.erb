@@ -1,7 +1,7 @@
 <% @page_title = "#{@event.title} (#{@event.stage})" %>
 <% @back_button = "group" %>
 <% @cog_button = "event" %>
-<% @show_bolt_button = false %>
+<% @show_bolt_button = true %>
 <%= render 'shared/navbar' %>
 
 
@@ -9,11 +9,11 @@
   <span id="timer"></span>
 </div>
 
-<% if @event.stage == 1 %>
-    <%= render 'show_stage1' %>
+<% if @event.stage == 1 && current_user.has_voted?(@event) %>
+    <%= render 'show_waiting' %>
 
   <% elsif @event.stage == 1 %>
-    <%= render 'show_waiting' %>
+    <%= render 'show_stage1' %>
 
   <% elsif @event.stage == 2 %>
     <%= render 'show_stage2' %>

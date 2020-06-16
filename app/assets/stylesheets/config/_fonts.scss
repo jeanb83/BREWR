@@ -1,16 +1,12 @@
 // Import Google fonts
-@import url('https://db.onlinewebfonts.com/c/208c60a0a6b9e5ebbc434f9f24c2aeae?family=Harlow+Solid+Italic');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+// To use a font file (.woff) uncomment following lines
+@font-face {
+  font-family: "Harlow Solid Italic";
+  src: url('/assets/HARLOWSI.TTF');
+}
+
 // Define fonts for body and headers
 $body-font: 'Montserrat', 'Helvetica', 'sans-serif';
 $headers-font: 'Harlow Solid Italic', 'Helvetica', 'sans-serif';
-
-// To use a font file (.woff) uncomment following lines
-// @font-face {
-//   font-family: "Font Name";
-//   src: font-url('FontFile.eot');
-//   src: font-url('FontFile.eot?#iefix') format('embedded-opentype'),
-//        font-url('FontFile.woff') format('woff'),
-//        font-url('FontFile.ttf') format('truetype')
-// }
-// $my-font: "Font Name";

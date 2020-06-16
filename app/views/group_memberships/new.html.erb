@@ -1,10 +1,17 @@
-<%= simple_form_for ([@group, @group_membership]) do |f| %>
-  <div class="d-flex flex-column form-inputs my-5 bw_form-inputs-no-border justify-content-center text-center">
-    <%= f.error_notification %>
-    <%= f.input :nickname, label:'User nickname :', placeholder: "Type in your friend's nickname",
-                required: true,
-                autofocus: true %>
+<% @page_title = @group.title %>
+<% @back_button = "dashboard" %>
+<% @cog_button = "group" %>
 
-    <%= f.button :submit, class: 'btn btn-primary' %>
-  </div>
+<%= render "shared/navbar"  %>
+<div class="container col-10 col-lg-4 d-flex flex-column justify-content-center my-5">
+  <%= simple_form_for ([@group, @group_membership]) do |f| %>
+    <div class="d-flex flex-column form-inputs my-5 bw_form-inputs-no-border justify-content-center text-center">
+      <%= f.error_notification %>
+      <%= f.input :nickname, label:'User nickname :', placeholder: "Type in your friend's nickname",
+                  required: true,
+                  autofocus: true %>
+
+      <%= f.button :submit, value: "Add member", class: 'btn btn-primary w-100 fixed-bottom btn-lg rounded-0' %>
+    </div>
   <% end %>
+</div>

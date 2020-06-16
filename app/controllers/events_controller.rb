@@ -83,8 +83,9 @@ class EventsController < ApplicationController
   end
 
   def set_last_stages_variables
-    @event_places = EventPlace.where(event_id: @event).where.not(booking_status: false)
-    @current_place = @event_places[0]
+    @event_places = @event.event_places.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
+    @event_place = @event_places[0]
+    puts @event_place
   end
 
   def event_params

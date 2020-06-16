@@ -1,21 +1,26 @@
 <% @page_title = "Notifications" %>
 <% @back_button = "dashboard" %>
-<% @cog_button = "user"%>
 <% @show_bolt_button = false %>
-
+<% @cog_button = "user" %>
 <%= render 'shared/navbar' %>
 
-<div class="container d-flex flex-column justify-content-center mt-4">
+<div class="container d-flex flex-column justify-content-center bw_padding-bottom-1">
     <% @notifications.each do |notification| %>
-      <div class="mb-4 border-bottom">
-        <% if notification.importance == 0 %>
-          <i class="far fa-envelope mr-2"></i>
-        <% elsif notification.importance == 1 %>
-          <i class="fas fa-exclamation text-warning mr-2"></i>
-        <% elsif notification.importance == 2 %>
-          <i class="fas fa-exclamation text-primary mr-2"></i>
-        <% end %>
-        <%= notification.content%>
+      <div class="bw_notification d-flex flex-row justify-content-left align-items-center py-3 px-0">
+        <div class="col-2 pl-0">
+          <% if notification.importance == 0 %>
+            <%= show_svg("avatars/plus.svg") %>
+          <% elsif notification.importance == 1 %>
+            <%= show_svg("avatars/plus.svg") %>
+          <% elsif notification.importance == 2 %>
+            <%= show_svg("avatars/plus.svg") %>
+          <% end %>
+        </div>
+        <div>
+          <small><%= notification.created_at.strftime('%b %d at %R') %></small>
+          <br>
+          <span><%= notification.content%></span>
+        </div>
       </div>
   <% end %>
 </div>

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :events, only: [:show, :edit, :update, :destroy] do # As a user I can do the rest of the crud inside the event page
-    resources :votes, only: [:create] # As a user I can vote from within the event show page
+    post 'votes', to: 'votes#bulk_create', as: 'votes'
   end
 
   resources :event_memberships, only: [:update] # As a user I can declare that I won't be coming for this event

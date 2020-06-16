@@ -27,10 +27,10 @@ h2 {
   font-size: 26px;
 }
 
-.bw_event_dates {
+.bw_countdown {
+  font-size: 54px;
+  font-weight: 800;
+  font-family: $headers-font;
   color: $primary;
-}
-
-.bw_group_members {
-  color: $primary;
+  letter-spacing: 2px;
 }

@@ -8,12 +8,10 @@
     <% @notifications.each do |notification| %>
       <div class="bw_notification d-flex flex-row justify-content-left align-items-center py-3 px-0">
         <div class="col-2 pl-0">
-          <% if notification.importance == 0 %>
-            <%= show_svg("avatars/plus.svg") %>
-          <% elsif notification.importance == 1 %>
-            <%= show_svg("avatars/plus.svg") %>
-          <% elsif notification.importance == 2 %>
-            <%= show_svg("avatars/plus.svg") %>
+          <% if notification.from_model == nil %>
+            <div></div>
+          <% else %>
+            <%= show_svg("#{notification.from_model_avatar_file}") %>
           <% end %>
         </div>
         <div>

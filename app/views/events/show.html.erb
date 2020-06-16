@@ -4,22 +4,18 @@
 <% @show_bolt_button = false %>
 <%= render 'shared/navbar' %>
 
-<div class="container d-flex flex-column justify-content-between">
+<% if @event.stage == 1 %>
+    <%= render 'show_stage1' %>
 
-  <% if @event.stage == 1 %>
-      <%= render 'show_stage1' %>
+  <% elsif @event.stage == 1 %>
+    <%= render 'show_waiting' %>
 
-    <% elsif @event.stage == 1 %>
-      <%= render 'show_waiting' %>
+  <% elsif @event.stage == 2 %>
+    <%= render 'show_stage2' %>
 
-    <% elsif @event.stage == 2 %>
-      <%= render 'show_stage2' %>
+  <% else %>
+    <%= render 'show_stage3' %>
 
-    <% else %>
-      <%= render 'show_stage3' %>
-
-  <% end %>
-
-</div>
+<% end %>
 
 <%= render 'shared/bottombar' %>

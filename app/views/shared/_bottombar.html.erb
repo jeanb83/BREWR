@@ -7,7 +7,7 @@
     <%= link_to groups_path do %>
       <i class="fas fa-users"></i>
     <% end %>
-    
+
     <% if @show_bolt_button == true %>
       <div class="p-relative">
         <%= link_to new_group_event_path(@group), class: "bw_big-bolt-button d-flex justify-content-center align-items-center" do %>
@@ -15,11 +15,11 @@
         <% end %>
       </div>
     <% end %>
-    
+
     <%= link_to notifications_path do %>
       <i class="fas fa-bell"></i>
     <% end %>
-    
+
     <%= render 'shared/edit_links' %>
   </div>
 </footer>

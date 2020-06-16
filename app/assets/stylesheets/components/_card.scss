@@ -1,0 +1,36 @@
+.card {
+  height: 60px;
+  border-bottom: 1px solid #dee2e6 !important;
+  border-top: 1px solid #dee2e6 !important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.card:hover {
+transform: scale(1.1);
+}
+
+.card li {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card p {
+  font-size: 10px;
+  line-height: 1.4;
+  opacity: .7;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin: 0px;
+  color: $dark;
+
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 0px;
+}

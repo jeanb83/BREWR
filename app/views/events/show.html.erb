@@ -4,6 +4,11 @@
 <% @show_bolt_button = false %>
 <%= render 'shared/navbar' %>
 
+
+<div class="container d-flex flex-column justify-content-between">
+  <span id="timer"></span>
+</div>
+
 <% if @event.stage == 1 %>
     <%= render 'show_stage1' %>
 

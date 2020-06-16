@@ -36,5 +36,8 @@ h2 {
 }
 
 .text-dark {
-  color: $dark;
+  color: $dark !important;
+  & a {
+    color: $dark !important;
+  }
 }

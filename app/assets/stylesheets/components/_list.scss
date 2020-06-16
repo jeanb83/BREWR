@@ -30,7 +30,7 @@ ul {
   }
 }
 
-.bw_notification {;
+.bw_notification, .bw_group, .bw_event {;
 
   &:not(:last-child) {
     border-bottom: 1px solid #dee2e6;

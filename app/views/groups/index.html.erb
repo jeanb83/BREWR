@@ -4,14 +4,29 @@
 
 <%= render "shared/navbar"  %>
 
-<ul>
-  <% @groups.each do |group| %>
-    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
-  <% end %>
-</ul>
+<div class="container d-flex flex-column justify-content-center mt-4 bw_padding-bottom-1">
 
-<div>
-  <%= link_to "Add a new group", new_group_path %>
-</div>
+    <% @groups.each do |group| %>
+
+    <div class="bw_group d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+      <div class="col-2 pl-0">
+        <%= show_svg(group.avatar_file) %>
+      </div>
+
+      <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+        <strong class="text-dark"><%= link_to group.title, group_path(group) %></strong>
+        <small class="text-muted"><i class="fas fa-user-friends"></i> <%= group.group_memberships.count %></small>
+      </div>
+    </div>
+
+    <% end %>
+
+    <div class="bw_group d-flex flex-row justify-content-left align-items-center py-3 px-0">
+      <div class="col-2 pl-0">
+        <%= show_svg("avatars/plus.svg") %>
+      </div>
+      <strong class="text-dark"><%= link_to "Add a new group", new_group_path %></strong>
+    </div>
+  </div>
 
 <%= render "shared/bottombar"  %>

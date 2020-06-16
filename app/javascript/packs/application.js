@@ -58,7 +58,3 @@ const listenAvatarClicks = () => avatars.forEach(node => {
   node.addEventListener('click', avatarClick);
   console.log("Loaded.");
 });
-
-
-
-// CountDown for votes

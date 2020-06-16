@@ -4,23 +4,32 @@
 
 <%= render "shared/navbar"  %>
 
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
   <h2>Events</h2>
-
   <ul>
+    <div class="cards">
+
     <% @events.each do |event| %>
-    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
+      <div class="card-product">
+        <li class="d-flex align-items-center "><div class="avatar mr-3"><%= show_svg(event.avatar_file) %></div><%= link_to event.title, event_path(event) %></li>
+        <span class="bw_event_dates"><i class="fas fa-calendar"></i> <%= event.date %></span>
+      </div>
     <% end %>
+    </div>
   </ul>
 
   <h2>Groups</h2>
 
   <ul>
     <% @groups.each do |group| %>
-    <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
+      <div class="card-product">
+        <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg(group.avatar_file) %></div><%= link_to group.title, group_path(group) %></li>
+        <span class="bw_group_members"><i class="fas fa-user-friends"></i> <%= group.group_memberships.count %></span>
+      </div>
     <% end %>
     <li class="d-flex align-items-center"><div class="avatar mr-3"><%= show_svg("avatars/plus.svg") %></div><%= link_to "Add a new group", new_group_path %></li>
   </ul>
 </div>
-
 <%= render "shared/bottombar"%>
+
+

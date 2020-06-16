@@ -399,7 +399,7 @@ if seed_votes
         vote.like = vote_likes.sample
         if vote.valid?
           vote.save
-          print "#{vote.taste} => #{vote.like}"
+          puts "#{vote.taste} => #{vote.like}"
         else
           puts "---- /!/ ERROR: Can't save vote. Not valid."
           p vote
@@ -408,39 +408,39 @@ if seed_votes
       end
     end
     # Check Stage 2 conditions
-    stage_2_event_votes = stage_2_event.votes.count
-    stage_2_event_users = stage_2_event.users.count
-    if stage_2_event_votes >= stage_2_event_users
-      # Upgrade to stage 2
-      stage_2_event.stage = 2
-      # Pick the random user
-      rand_user = stage_2_event.users.sample
-      stage_2_event.random_user_id = rand_user
-      # Save
-      stage_2_event.save
-      puts "\n\n---- Event '#{stage_2_event.title}' updated to Stage 2."
-      puts "---- User '#{rand_user.nickname}' has to make the booking.\n\n"
+    # stage_2_event_votes = stage_2_event.votes.count
+    # stage_2_event_users = stage_2_event.users.count
+    # if stage_2_event_votes >= stage_2_event_users
+    #   # Upgrade to stage 2
+    #   stage_2_event.stage = 2
+    #   # Pick the random user
+    #   rand_user = stage_2_event.users.sample
+    #   stage_2_event.random_user_id = rand_user.id
+    #   # Save
+    #   stage_2_event.save
+    #   puts "\n\n---- Event '#{stage_2_event.title}' updated to Stage 2."
+    #   puts "---- User '#{rand_user.nickname}' has to make the booking.\n\n"
 
-      # Send notification
-      if seed_notifications
-        stage_2_event.users.each do |u|
-          notification = Notification.new(user: u, from_model: "event", from_model_avatar_file: stage_2_event.avatar_file)
-          notification.content = "Voting session for #{stage_2_event.title} is complete! #{rand_user.nickname} will now make the booking."
-          if notification.valid?
-            notification.save
-          else
-            puts "------ /!/ ERROR: Can't save notification. Not valid."
-            p notification
-            errors += 1
-          end
-        end
-      end
-    else
-      puts "---- /!/ ERROR: Can't update event '#{stage_2_event.title}' to Stage 2."
-      p stage_2_event
-      p stage_2_event.votes
-      errors += 1
-    end
+    #   # Send notification
+    #   if seed_notifications
+    #     stage_2_event.users.each do |u|
+    #       notification = Notification.new(user: u, from_model: "event", from_model_avatar_file: stage_2_event.avatar_file)
+    #       notification.content = "Voting session for #{stage_2_event.title} is complete! #{rand_user.nickname} will now make the booking."
+    #       if notification.valid?
+    #         notification.save
+    #       else
+    #         puts "------ /!/ ERROR: Can't save notification. Not valid."
+    #         p notification
+    #         errors += 1
+    #       end
+    #     end
+    #   end
+    # else
+    #   puts "---- /!/ ERROR: Can't update event '#{stage_2_event.title}' to Stage 2."
+    #   p stage_2_event
+    #   p stage_2_event.votes
+    #   errors += 1
+    # end
   end
 end
 
@@ -449,69 +449,70 @@ end
 
 
 # CALLING YELP API FOR EVENT PLACES
-if seed_event_places
-  stage_2_events = Event.where(stage: 2)
-  # Compile votes for each one
-  stage_2_events.each do |stage_2_event|
-    compiled_votes = {}
-    # Initialize all tastes to 0
-    vote_tastes.each do |vote_taste|
-      compiled_votes[vote_taste] = 0
-    end
-    # Compile the votes
-    stage_2_event.votes.each do |vote|
-      compiled_votes[vote.taste] += vote.like
-    end
-    # Get the bigger vote
-    stage_2_event_term = compiled_votes.max_by { |taste, like| like }[0]
-    puts "\n\nEvent @#{stage_2_event.title}: Winning term: '#{stage_2_event_term}'"
+# if seed_event_places
+#   stage_2_events = Event.where(stage: 2)
+#   # Compile votes for each one
+#   stage_2_events.each do |stage_2_event|
+#     compiled_votes = {}
+#     # Initialize all tastes to 0
+#     vote_tastes.each do |vote_taste|
+#       compiled_votes[vote_taste] = 0
+#     end
+#     # Compile the votes
+#     stage_2_event.votes.each do |vote|
+#       compiled_votes[vote.taste] += vote.like
+#     end
+#     # Get the bigger vote
+#     stage_2_event_term = compiled_votes.max_by { |taste, like| like }[0]
+#     puts "\n\nEvent @#{stage_2_event.title}: Winning term: '#{stage_2_event_term}'"
 
-    puts "\n\n> Calling Yelp API with term '#{stage_2_event_term}' and city '#{stage_2_event.city}'"
+#     puts "\n\n> Calling Yelp API with term '#{stage_2_event_term}' and city '#{stage_2_event.city}'"
 
-    stage_2_event_places = Yelp.search(stage_2_event_term, stage_2_event.city)["businesses"]
-    if stage_2_event_places.nil?
-      puts "-- No API from Yelp :(\n\n"
-    else
-      puts "-- Got API response from Yelp :)\n\n"
-    end
-    # Initialize rank
-    if stage_2_event_places
-      rank = 1
-      stage_2_event_places.each do |stage_2_event_place|
-        place = EventPlace.new
-        place.event = stage_2_event
-        place.yelp_name = stage_2_event_place["name"]
-        place.yelp_id = stage_2_event_place["id"]
-        place.yelp_price = stage_2_event_place["price"]
-        place.yelp_longitude = stage_2_event_place["coordinates"]["longitude"]
-        place.yelp_latitude = stage_2_event_place["coordinates"]["latitude"]
-        place.yelp_phone = stage_2_event_place["phone"]
-        place.yelp_address1 = stage_2_event_place["location"]["address1"]
-        place.yelp_address2 = stage_2_event_place["location"]["address2"]
-        place.yelp_address3 = stage_2_event_place["location"]["address3"]
-        place.yelp_city = stage_2_event_place["location"]["city"]
-        place.yelp_country = stage_2_event_place["location"]["country"]
-        place.yelp_zip_code = stage_2_event_place["location"]["zip_code"]
-        place.yelp_state = stage_2_event_place["location"]["state"]
-        place.yelp_url = stage_2_event_place["url"]
-        place.yelp_image_url = stage_2_event_place["image_url"]
-        place.yelp_rating = stage_2_event_place["rating"]
-        place.yelp_review_count = stage_2_event_place["review_count"]
-        place.rank = rank
-        rank += 1
-        # Try to save it
-        if place.valid?
-          place.save
-          puts "---- Yelp Event Place saved: #{place.yelp_name}."
-        else
-          puts "---- /!/ ERROR: Can't save Yelp Event Place. Not valid."
-          p place
-          errors += 1
-        end
-      end
-    end
-  end
-end
+#     stage_2_event_places = Yelp.search(stage_2_event_term, stage_2_event.city)["businesses"]
+#     if stage_2_event_places.nil?
+#       puts "-- No API from Yelp :(\n\n"
+#     else
+#       puts "-- Got API response from Yelp :)\n\n"
+#     end
+#     # Initialize rank
+#     if stage_2_event_places
+#       rank = 1
+#       stage_2_event_places.each do |stage_2_event_place|
+#         place = EventPlace.new
+#         place.event = stage_2_event
+#         place.yelp_name = stage_2_event_place["name"]
+#         place.yelp_alias = stage_2_event_place["alias"]
+#         place.yelp_id = stage_2_event_place["id"]
+#         place.yelp_price = stage_2_event_place["price"]
+#         place.yelp_longitude = stage_2_event_place["coordinates"]["longitude"]
+#         place.yelp_latitude = stage_2_event_place["coordinates"]["latitude"]
+#         place.yelp_phone = stage_2_event_place["phone"]
+#         place.yelp_address1 = stage_2_event_place["location"]["address1"]
+#         place.yelp_address2 = stage_2_event_place["location"]["address2"]
+#         place.yelp_address3 = stage_2_event_place["location"]["address3"]
+#         place.yelp_city = stage_2_event_place["location"]["city"]
+#         place.yelp_country = stage_2_event_place["location"]["country"]
+#         place.yelp_zip_code = stage_2_event_place["location"]["zip_code"]
+#         place.yelp_state = stage_2_event_place["location"]["state"]
+#         place.yelp_url = stage_2_event_place["url"]
+#         place.yelp_image_url = stage_2_event_place["image_url"]
+#         place.yelp_rating = stage_2_event_place["rating"]
+#         place.yelp_review_count = stage_2_event_place["review_count"]
+#         place.rank = rank
+#         rank += 1
+#         # Try to save it
+#         if place.valid?
+#           place.save
+#           puts "---- Yelp Event Place saved: #{place.yelp_name}."
+#         else
+#           puts "---- /!/ ERROR: Can't save Yelp Event Place. Not valid."
+#           p place
+#           errors += 1
+#         end
+#       end
+#     end
+#   end
+# end
 
 
 # ---------------------------------------------

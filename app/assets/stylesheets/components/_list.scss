@@ -30,9 +30,17 @@ ul {
   }
 }
 
-.bw_notification, .bw_group, .bw_event {;
+.bw_notification, .bw_group, .bw_event {
 
   &:not(:last-child) {
     border-bottom: 1px solid #dee2e6;
+  }
+}
+
+.bw_big-links {
+  width: 60vw;
+
+  & a {
+    font-size: 42px;
   }
 }

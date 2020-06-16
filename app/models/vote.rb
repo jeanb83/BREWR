@@ -22,7 +22,8 @@ class Vote < ApplicationRecord
     # Get the vote's event
     @event = self.event
     # Check if there's enough votes
-    if @event.votes.distinct.count(:event_membership_id) >= @event.users.count
+    @event
+    if @event.votes.group_by(&:event_membership_id).count >= @event.event_memberships.count && self.taste == VOTE_TASTES[-1]
       # Initialize compilation as a hash
       @compiled_votes = {}
       # Initialize all possible tastes to 0 for compilation
@@ -37,8 +38,12 @@ class Vote < ApplicationRecord
       @event.term = @compiled_votes.max_by { |taste, like| like }[0]
       # Pass event to stage 2
       @event.stage = 2
+      # Random user set
+      @event.random_user_id = @event.users.sample.id
       # Save
       @event.save
+      # Get results from Yelp
+      Yelp.fetch_places(@event)
     end
   end
   

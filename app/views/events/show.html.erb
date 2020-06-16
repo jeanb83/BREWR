@@ -14,10 +14,13 @@
   <% elsif @event.stage == 1 %>
     <%= render 'show_stage1' %>
 
-  <% elsif @event.stage == 2 %>
-    <%= render 'show_stage2' %>
+  <% elsif @event.stage == 2 && current_user == @random_user %>
+    <%= render 'show_stage2-random' %>
 
-  <% else %>
+  <% elsif @event.stage == 2 %>
+    <%= render 'show_stage2-others' %>
+
+  <% elsif @event.stage == 3 %>
     <%= render 'show_stage3' %>
 
 <% end %>

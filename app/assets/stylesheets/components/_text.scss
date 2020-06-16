@@ -41,3 +41,19 @@ h2 {
     color: $dark !important;
   }
 }
+
+.bw_big-event-infos {
+  width: 60vw;
+  & strong {
+    font-size: 28px;
+    margin-bottom: 0;
+  }
+}
+
+.h-32px {
+  font-size: 32px;
+}
+
+.font-bolder {
+  font-weight: bolder;
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_100754) do
+ActiveRecord::Schema.define(version: 2020_06_16_140952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_100754) do
     t.string "yelp_country"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "yelp_alias"
     t.index ["event_id"], name: "index_event_places_on_event_id"
   end
 

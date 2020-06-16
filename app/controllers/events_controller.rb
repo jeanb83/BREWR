@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_group, only: [:new, :create]
+  before_action :set_event_eid, only: [:event_full, :event_booked]
   # before_action :authenticate_user!
 
   def show
@@ -71,13 +72,49 @@ class EventsController < ApplicationController
     redirect_to group_path(@group)
   end
 
+  def event_full
+    set_last_stages_variables
+    @event_place.booking_status = false
+    if @event_place.save
+      # If save success redirect to event show
+      redirect_to event_path(@event)
+    else
+      # If failure, log the event in the console
+      p "- ERROR: Failed to update event:\n#{@event}."
+      # And render the edit form again
+      render "show"
+    end
+  end
+
+  def event_booked
+    set_last_stages_variables
+    @event_place.booking_status = true
+    @event.stage = 3
+    if @event.save && @event_place.save
+      # If save success redirect to event show
+      send_stage_3_notifications(@event)
+      redirect_to event_path(@event)
+    else
+      # If failure, log the event in the console
+      p "- ERROR: Failed to update event:\n#{@event}."
+      # And render the edit form again
+      render "show"
+    end
+  end
+
   private
 
+  # Find event by id in DB
   def set_event
-    # Find event by id in DB
     @event = Event.find(params[:id])
   end
 
+  # Find event by event_id in DB
+  def set_event_eid
+    @event = Event.find(params[:event_id])
+  end
+
+  # Find group by group_id in DB
   def set_group
     @group = Group.find(params[:group_id])
   end
@@ -85,11 +122,11 @@ class EventsController < ApplicationController
   def set_last_stages_variables
     @event_places = @event.event_places.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
     @event_place = @event_places[0]
-    puts @event_place
+    @random_user = User.find(@event.random_user_id)
   end
 
+  # Whitelist params
   def event_params
-    # Whitelist params
     params.require(:event).permit(:title, :date, :city, :avatar_file)
   end
 
@@ -100,6 +137,22 @@ class EventsController < ApplicationController
     @users.each do |user|
       # For each user in the list create an Event Membership with status true by default
       event_membership = EventMembership.create(user: user, event: event, status: true)
+    end
+  end
+
+  # Send notifications
+  def send_stage_3_notifications(event)
+    event_place = event.event_places.find_by(booking_status: true)
+    event.users.each do |user|
+      notification = Notification.new(user: user, from_model: "event", from_model_avatar_file: event.avatar_file)
+      notification.content = "All right! You are going out on #{event.date.strftime('%b %d')} at #{event_place.yelp_name} (#{event_place.city}) for #{event.title}!"
+      if notification.valid?
+        notification.save
+      else
+        puts "------ /!/ ERROR: Can't save notification. Not valid."
+        p notification
+        errors += 1
+      end
     end
   end
 end

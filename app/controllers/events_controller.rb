@@ -12,12 +12,14 @@ class EventsController < ApplicationController
     # STAGE 1 (VOTE)
     if @event.stage == 1
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
-    # STAGE 2 (BOOKING)
+    # STAGE 2 or STAGE 3 (BOOKINGS)
     elsif @event.stage == 2
-      set_last_stages_variables
-    # STAGE 3 (BOOKED)
+      @event_places = @event.event_places.where(booking_status: nil)
+      @event_place = @event_places[0]
+      @random_user = User.find(@event.random_user_id)
     elsif @event.stage == 3
-      set_last_stages_variables
+      @event_place = EventPlace.find_by(booking_status: true)
+      @random_user = User.find(@event.random_user_id)
     end
   end
 
@@ -73,7 +75,8 @@ class EventsController < ApplicationController
   end
 
   def event_full
-    set_last_stages_variables
+    @event_places = EventPlace.where(booking_status: nil)
+    @event_place = @event_places[0]
     @event_place.booking_status = false
     if @event_place.save
       # If save success redirect to event show
@@ -87,7 +90,8 @@ class EventsController < ApplicationController
   end
 
   def event_booked
-    set_last_stages_variables
+    @event_places = EventPlace.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
+    @event_place = @event_places[0]
     @event_place.booking_status = true
     @event.stage = 3
     if @event.save && @event_place.save
@@ -117,12 +121,6 @@ class EventsController < ApplicationController
   # Find group by group_id in DB
   def set_group
     @group = Group.find(params[:group_id])
-  end
-
-  def set_last_stages_variables
-    @event_places = @event.event_places.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
-    @event_place = @event_places[0]
-    @random_user = User.find(@event.random_user_id)
   end
 
   # Whitelist params

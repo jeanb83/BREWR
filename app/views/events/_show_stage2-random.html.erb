@@ -23,6 +23,6 @@
 </div>
 
 <div class="row row-cols-2 w-100 fixed-bottom bw_margin-bottom-1 mx-0">
-  <%= link_to event_full_path(@event), class: "btn btn-dark w-100 btn-lg rounded-0" do %><i class="fas fa-thumbs-down"></i><% end %>
-  <%= link_to event_booked_path(@event), class: "btn btn-primary w-100 btn-lg rounded-0" do %><i class="fas fa-thumbs-up"></i><% end %>
+  <%= link_to event_full_path(@event), class: "btn btn-dark w-100 btn-lg rounded-0", method: :post do %><i class="fas fa-thumbs-down"></i><% end %>
+  <%= link_to event_booked_path(@event), class: "btn btn-primary w-100 btn-lg rounded-0", method: :post do %><i class="fas fa-thumbs-up"></i><% end %>
 </div>

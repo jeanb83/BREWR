@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     # STAGE 1 (VOTE)
     if @event.stage == 1
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
-    # STAGE 2 or STAGE 3 (BOOKINGS)
+    # STAGE 2
     elsif @event.stage == 2
       # Set pending places
       set_pending_places
@@ -20,6 +20,7 @@ class EventsController < ApplicationController
       set_current_place(@event_places)
       # Set random user
       @random_user = User.find(@event.random_user_id)
+    # STAGE 3
     elsif @event.stage == 3
       # Final event place is the one that is booked
       @event_place = EventPlace.find_by(booking_status: "booked")

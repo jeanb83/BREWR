@@ -15,7 +15,7 @@ class EventsController < ApplicationController
     # STAGE 2
     elsif @event.stage == 2
       # Set pending places
-      set_pending_places
+      set_pending_places(@event)
       # Current place is the first pending event places
       set_current_place(@event_places)
       # Set random user
@@ -23,7 +23,7 @@ class EventsController < ApplicationController
     # STAGE 3
     elsif @event.stage == 3
       # Final event place is the one that is booked
-      @event_place = EventPlace.find_by(booking_status: "booked")
+      @event_place = @event.event_places.find_by(booking_status: "booked")
     end
   end
 
@@ -81,7 +81,7 @@ class EventsController < ApplicationController
 
   def full
     # Set pending places
-    set_pending_places
+    set_pending_places(@event)
     # Current place is the first pending event places
     set_current_place(@event_places)
 
@@ -102,7 +102,7 @@ class EventsController < ApplicationController
 
   def booked
     # Set pending places
-    set_pending_places
+    set_pending_places(@event)
     # Current place is the first pending event places
     set_current_place(@event_places)
 
@@ -148,8 +148,8 @@ class EventsController < ApplicationController
   end
 
   # Set the pending places
-  def set_pending_places
-    @event_places = EventPlace.where(booking_status: "pending")
+  def set_pending_places(event)
+    @event_places = event.event_places.where(booking_status: "pending")
   end
 
   # Set current event place

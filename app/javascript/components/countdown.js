@@ -1,16 +1,49 @@
-// CountDown for votes
+function getTimeRemaining(endtime) {
+  const total = Date.parse(endtime) - Date.parse(new Date());
+  const seconds = Math.floor((total / 1000) % 60);
+  const minutes = Math.floor((total / 1000 / 60) % 60);
+  const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(total / (1000 * 60 * 60 * 24));
 
-const counter = setInterval(timer, 1000); //1000 will  run it every 1 second
-
-function timer() {
-  count = count - 1;
-  if (count <= 0) {
-    clearInterval(counter);
-    //counter ended, do something here
-    return;
-  }
-
-  document.getElementById("timer").innerHTML = count + " secs"; // watch for spelling//Do code for showing the number of seconds here
+  return {
+    total,
+    days,
+    hours,
+    minutes,
+    seconds
+  };
 }
 
-export { countdown };
+function initializeClock(id, endtime) {
+  const clock = document.getElementById(id);
+  const daysSpan = clock.querySelector('.days');
+  const hoursSpan = clock.querySelector('.hours');
+  const minutesSpan = clock.querySelector('.minutes');
+  const secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    const t = getTimeRemaining(endtime);
+
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  const timeinterval = setInterval(updateClock, 1000);
+}
+
+const initCountDown = () => {
+  const clockdiv = document.getElementById('clockdiv')
+  if (clockdiv) {
+    const deadline = new Date(Number(clockdiv.dataset.deadline));
+    initializeClock('clockdiv', deadline);
+  }
+}
+
+export {initCountDown}

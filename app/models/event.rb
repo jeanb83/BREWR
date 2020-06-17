@@ -14,6 +14,11 @@ class Event < ApplicationRecord
 
   after_create :set_stage_to_zero
 
+def get_deadline_timestamp
+  deadline = self.created_at + 4.hours
+  deadline.to_i * 1000
+end
+
   private
 
   def set_stage_to_zero

@@ -52,7 +52,11 @@ class Yelp
         place.yelp_state = event_place["location"]["state"]
         place.yelp_url = event_place["url"]
         place.yelp_image_url = event_place["image_url"]
-        place.yelp_image_url = nil if place.yelp_image_url == ""
+        if event_place["image_url"] == "" || event_place["image_url"].nil? || event_place["image_url"].empty?
+          place.yelp_image_url = nil
+        else
+          place.yelp_image_url = event_place["image_url"]
+        end
         place.yelp_rating = event_place["rating"]
         place.yelp_review_count = event_place["review_count"]
         place.rank = rank

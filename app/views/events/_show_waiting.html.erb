@@ -1,3 +1,5 @@
-<div class="d-flex bw_h-100-vh justify-content-center align-items-center">
-  <h1 class="text-center bw_big-logo "> <%= @event.votes.count %> / <%= @event.event_memberships.count %> members have voted</h1>
+<div class="d-flex flex-column bw_h-100-vh justify-content-center align-items-center">
+  <h2 class="text-center bw_big-word px-3 mb-5"> Your vote has been submitted !</h2>
+
+  <strong class="h-32px"><%= @event.votes.group_by(&:event_membership_id).count %> / <%= @event.event_memberships.count %> <i class="fas fa-user-friends"></i></strong>
 </div>

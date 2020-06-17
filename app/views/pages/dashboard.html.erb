@@ -15,7 +15,7 @@
           <%= show_svg(event.avatar_file) %>
         </div>
         <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
-          <strong class="text-dark"><%= link_to "(#{event.stage}) #{event.title}", event_path(event) %></strong>
+          <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
           <small class="text-muted"><%= event.date.strftime("%b %d") %></small>
         </div>
       </div>

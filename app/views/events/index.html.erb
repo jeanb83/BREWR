@@ -1,25 +1,65 @@
-<% @page_title = "Upcoming events" %>
+<% @page_title = "Events" %>
 <% @back_button = "logout" %>
 <% @cog_button = "user" %>
 
 <%= render "shared/navbar"  %>
 
-<div class="container d-flex flex-column justify-content-center mt-2 bw_padding-bottom-1">
 
-  <% @events.each do |event| %>
+<div class="container d-flex flex-column justify-content-center mt-4 bw_padding-bottom-1">
+  <% if !@events.where(stage: 3).empty? %>
+    <div class="mb-5">
+      <h2>Upcoming events</h2>
+      <% @events.where(stage: 3).each do |event| %>
 
-  <div class="bw_event d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
-    <div class="col-2 pl-0">
-      <%= show_svg(event.avatar_file) %>
+        <div class="bw_event d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+          <div class="col-2 pl-0">
+            <%= show_svg(event.avatar_file) %>
+          </div>
+          <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+            <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
+            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+          </div>
+        </div>
+      <% end %>
     </div>
-    <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
-      <strong class="text-dark"><%= link_to "(#{event.stage}) #{event.title}", event_path(event) %></strong>
-      <small class="text-dark"><%= event.date.strftime("%A %d %b") %></small>
-    </div>
-  </div>
-
   <% end %>
 
+
+  <% if !@events.where(stage: 2).empty? %>
+    <div class="mb-5">
+      <h2>Booking in process...</h2>
+      <% @events.where(stage: 2).each do |event| %>
+
+        <div class="bw_event d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+          <div class="col-2 pl-0">
+            <%= show_svg(event.avatar_file) %>
+          </div>
+          <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+            <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
+            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if !@events.where(stage: 1).empty? %>
+    <div class="mb-5">
+      <h2>Votes in process...</h2>
+      <% @events.where(stage: 1).each do |event| %>
+
+        <div class="bw_event d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+          <div class="col-2 pl-0">
+            <%= show_svg(event.avatar_file) %>
+          </div>
+          <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+            <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
+            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 <%= render "shared/bottombar"%>
 

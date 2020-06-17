@@ -35,6 +35,7 @@ class Yelp
       event_places.each do |event_place|
         place = EventPlace.new
         place.event = event
+        place.booking_status = "pending"
         place.yelp_name = event_place["name"]
         place.yelp_alias = event_place["alias"]
         place.yelp_id = event_place["id"]
@@ -51,6 +52,7 @@ class Yelp
         place.yelp_state = event_place["location"]["state"]
         place.yelp_url = event_place["url"]
         place.yelp_image_url = event_place["image_url"]
+        place.yelp_image_url = nil if place.yelp_image_url == ""
         place.yelp_rating = event_place["rating"]
         place.yelp_review_count = event_place["review_count"]
         place.rank = rank
@@ -59,7 +61,7 @@ class Yelp
         if place.valid?
           place.save
         else
-          puts place
+          puts "---- /!/ ERROR: Can't save place #{place.yelp_name}. Not valid."
         end
       end
     else

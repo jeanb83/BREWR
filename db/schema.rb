@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_140952) do
+ActiveRecord::Schema.define(version: 2020_06_17_081539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_140952) do
     t.bigint "event_id", null: false
     t.string "yelp_id"
     t.integer "rank"
-    t.boolean "booking_status"
+    t.string "booking_status"
     t.string "yelp_name"
     t.string "yelp_price"
     t.float "yelp_longitude"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_140952) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "from_model"
     t.string "from_model_avatar_file"
+    t.string "from_model_link"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 

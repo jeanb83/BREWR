@@ -20,30 +20,32 @@ class Vote < ApplicationRecord
 
   def compile_votes
     # Get the vote's event
-    @event = self.event
+    event = self.event
     # Check if there's enough votes
-    @event
-    if @event.votes.group_by(&:event_membership_id).count >= @event.event_memberships.count && self.taste == VOTE_TASTES[-1]
+    event
+    if event.votes.group_by(&:event_membership_id).count >= event.event_memberships.count && event.votes.last.taste == VOTE_TASTES[-1]
       # Initialize compilation as a hash
-      @compiled_votes = {}
+      compiled_votes = {}
       # Initialize all possible tastes to 0 for compilation
       VOTE_TASTES.each do |taste|
-        @compiled_votes[taste] = 0
+        compiled_votes[taste] = 0
       end
       # Compile the votes
-      @event.votes.each do |vote|
-        @compiled_votes[vote.taste] += vote.like
+      event.votes.each do |vote|
+        compiled_votes[vote.taste] += vote.like
       end
       # Get the bigger vote and store in events term column
-      @event.term = @compiled_votes.max_by { |taste, like| like }[0]
+      event.term = compiled_votes.max_by { |taste, like| like }[0]
       # Pass event to stage 2
-      @event.stage = 2
+      event.stage = 2
       # Random user set
-      @event.random_user_id = @event.users.sample.id
+      event.random_user_id = event.users.sample.id
       # Save
-      @event.save
+      event.save
       # Get results from Yelp
-      Yelp.fetch_places(@event)
+      Yelp.fetch_places(event)
+      # Send notification to all event members
+      Notification.upstaged_to_2(event)
     end
   end
   

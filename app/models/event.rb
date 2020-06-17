@@ -12,11 +12,16 @@ class Event < ApplicationRecord
   validates :date, presence: true
   validates :city, presence: true
 
-  after_create :set_stage_to_zero
-
+  after_create :invite_group_members
+  
   private
 
-  def set_stage_to_zero
-    @stage = 0
+  def invite_group_members
+    # Get the users list
+    users = self.group.users
+    users.each do |user|
+      # For each user in the list create an Event Membership with status true by default
+      event_membership = EventMembership.create(user: user, event: self, status: true)
+    end
   end
 end

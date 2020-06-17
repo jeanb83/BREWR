@@ -15,9 +15,9 @@ class EventsController < ApplicationController
     # STAGE 2
     elsif @event.stage == 2
       # Set pending places
-      set_pending_places(@event)
+      set_event_places(@event)
       # Current place is the first pending event places
-      set_current_place(@event_places)
+      set_event_place(@event_places)
       # Set random user
       @random_user = User.find(@event.random_user_id)
     # STAGE 3
@@ -42,7 +42,7 @@ class EventsController < ApplicationController
     if @event.save
       # If save success all group members will be invited (after_create method) to the event
       # Send notifications
-      Notification.new_event(event)
+      Notification.new_event(@event)
       # And redirect to the event show
       redirect_to event_path(@event)
     else
@@ -81,9 +81,9 @@ class EventsController < ApplicationController
 
   def full
     # Set pending places
-    set_pending_places(@event)
+    set_event_places(@event)
     # Current place is the first pending event places
-    set_current_place(@event_places)
+    set_event_place(@event_places)
 
     # Update booking status to full
     @event_place.booking_status = "full"
@@ -102,9 +102,9 @@ class EventsController < ApplicationController
 
   def booked
     # Set pending places
-    set_pending_places(@event)
+    set_event_places(@event)
     # Current place is the first pending event places
-    set_current_place(@event_places)
+    set_event_place(@event_places)
 
     # Update booking status to booked
     @event_place.booking_status = "booked"
@@ -148,12 +148,12 @@ class EventsController < ApplicationController
   end
 
   # Set the pending places
-  def set_pending_places(event)
+  def set_event_places(event)
     @event_places = event.event_places.where(booking_status: "pending")
   end
 
   # Set current event place
-  def set_current_place(event_places)
+  def set_event_place(event_places)
     @event_place = event_places[0]
   end
 end

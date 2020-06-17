@@ -17,7 +17,7 @@
         <div>
           <small><%= notification.created_at.strftime('%b %d at %R') %></small>
           <br>
-          <span><%= notification.content%></span>
+          <a href="<%= notification.from_model_link %>" class="text-dark"><%= notification.content %></a>
         </div>
       </div>
   <% end %>

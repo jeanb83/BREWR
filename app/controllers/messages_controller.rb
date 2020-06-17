@@ -5,9 +5,8 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.group = @group
     @message.user = current_user
-    p @message.valid?
-    p @message
     if @message.save
+      Notification.new_group_message(@message)
       redirect_to group_path(@group)
     else
       render "groups/show"

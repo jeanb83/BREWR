@@ -1,5 +1,5 @@
-<div class="container d-flex flex-column justify-content-between bw_padding-bottom-2">
-<h1>Countdown Clock</h1>
+<div class="container d-flex flex-column justify-content-between bw_padding-bottom-2 mt-4">
+<h2 class="text-center body-font h-32px font-bolder">Vote quick!</h2>
 <div class="d-flex justify-content-center align-items-center bw_countdown">
   <div id="clockdiv" data-deadline="<%= @event.get_deadline_timestamp %>">
     <div class="d-none">
@@ -21,19 +21,19 @@
   </div>
 </div>
 
-  <strong class="text-center">Vote by clicking on the faces.</strong>
+  <strong class="text-center mb-4">Vote by clicking on the faces.</strong>
 
   <%= form_tag event_votes_path(@event), method: :post do |f| %>
 
     <% Vote::VOTE_TASTES.each do |taste| %>
 
-      <div class="d-flex justify-content-between align-items-center py-4 bw_event-vote">
+      <div class="d-flex justify-content-between align-items-center py-3 bw_event-vote">
 
         <div class="d-flex align-items-center">
           <div class="avatars mb-0">
             <%= show_svg("avatars/tastes/#{taste.downcase}.svg") %>
           </div>
-          <span><%= taste %></span>
+          <span class="body-font"><%= taste %></span>
         </div>
 
         <div>

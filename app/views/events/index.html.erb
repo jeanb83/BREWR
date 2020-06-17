@@ -1,0 +1,26 @@
+<% @page_title = "Upcoming events" %>
+<% @back_button = "logout" %>
+<% @cog_button = "user" %>
+
+<%= render "shared/navbar"  %>
+
+<div class="container d-flex flex-column justify-content-center mt-2 bw_padding-bottom-1">
+
+  <% @events.each do |event| %>
+
+  <div class="bw_event d-flex flex-row justify-content-left align-items-center py-3 px-0 pr-3">
+    <div class="col-2 pl-0">
+      <%= show_svg(event.avatar_file) %>
+    </div>
+    <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
+      <strong class="text-dark"><%= link_to "(#{event.stage}) #{event.title}", event_path(event) %></strong>
+      <small class="text-muted"><%= event.date.strftime("%b %d") %></small>
+    </div>
+  </div>
+
+  <% end %>
+
+</div>
+<%= render "shared/bottombar"%>
+
+

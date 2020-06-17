@@ -76,8 +76,7 @@ class Notification < ApplicationRecord
   end
 
   # Notification to all event members that event has made it to stage 3
-  def self.upstaged_to_3(event)
-    event_place = event.event_places.find_by(booking_status: true)
+  def self.upstaged_to_3(event, event_place)
     event.users.each do |user|
       notification = Notification.new(user: user,
                                       from_model: "event",

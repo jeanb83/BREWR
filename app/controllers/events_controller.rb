@@ -113,7 +113,7 @@ class EventsController < ApplicationController
     # Save event AND event_place
     if @event.save && @event_place.save
       # Send notifications
-      Notification.upstaged_to_3(@event)
+      Notification.upstaged_to_3(@event, @event_place)
       # If save success redirect to event show
       redirect_to event_path(@event)
     else

@@ -22,7 +22,6 @@ class Vote < ApplicationRecord
     # Get the vote's event
     event = self.event
     # Check if there's enough votes
-    event
     if event.votes.group_by(&:event_membership_id).count >= event.event_memberships.count && event.votes.last.taste == VOTE_TASTES[-1]
       # Initialize compilation as a hash
       compiled_votes = {}

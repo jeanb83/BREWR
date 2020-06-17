@@ -3,8 +3,6 @@ class Notification < ApplicationRecord
 
   validates :content, presence: true
 
-  after_validation :set_zero_by_default
-
   # Notification to group members that a new message has been sent
   def self.new_group_message(message)
     group = message.group
@@ -88,14 +86,7 @@ class Notification < ApplicationRecord
       else
         puts "------ /!/ ERROR: Can't save UpStagedTo3 notification. Not valid."
         p notification
-        errors += 1
       end
     end
-  end
-
-  private
-
-  def set_zero_by_default
-    @importance = 0 if @importance.nil?
   end
 end

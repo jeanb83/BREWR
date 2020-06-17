@@ -28,11 +28,12 @@ import "bootstrap";
 // Internal imports, e.g:
 import { avatarClick } from '../components/avatar_click';
 import { likeClick } from '../components/like_click';
+import {initCountDown} from '../components/countdown';
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
   avatarClick();
   likeClick();
+  initCountDown();
 });
-

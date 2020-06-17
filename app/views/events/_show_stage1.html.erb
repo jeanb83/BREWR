@@ -1,7 +1,26 @@
 <div class="container d-flex flex-column justify-content-between bw_padding-bottom-2">
+<h1>Countdown Clock</h1>
+<div class="d-flex justify-content-center align-items-center bw_countdown">
+  <div id="clockdiv" data-deadline="<%= @event.get_deadline_timestamp %>">
+    <div class="d-none">
+      <span class="days"></span>
+      <div class="smalltext">:</div>
+    </div>
+    <div class="d-inline-flex">
+      <span class="hours"></span>
+      <div class="smalltext">:</div>
+    </div>
+    <div class="d-inline-flex">
+      <span class="minutes"></span>
+      <div class="smalltext">:</div>
+    </div>
+    <div class="d-inline-flex">
+      <span class="seconds"></span>
+      <div class="smalltext"></div>
+    </div>
+  </div>
+</div>
 
-
-  <strong class="text-center bw_countdown my-4">01:00:00</strong>
   <strong class="text-center">Vote by clicking on the faces.</strong>
 
   <%= form_tag event_votes_path(@event), method: :post do |f| %>

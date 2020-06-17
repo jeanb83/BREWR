@@ -11,6 +11,7 @@ class GroupMembershipsController < ApplicationController
     @group_membership.user = User.find_by(nickname: @group_membership.nickname)
     @group_membership.group = @group
     if @group_membership.save
+      Notification.new_group_member(@group_membership)
       redirect_to group_path(@group)
     else
       render "groups/show"

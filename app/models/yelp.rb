@@ -26,4 +26,46 @@ class Yelp
     response = HTTP.auth("Bearer #{API_KEY}").get(url)
     response.parse
   end
+
+  def self.fetch_places(event)
+    rank = 1
+    event_places = Yelp.search(event.term, event.city)["businesses"]
+
+    if !event_places.nil?
+      event_places.each do |event_place|
+        place = EventPlace.new
+        place.event = event
+        place.booking_status = "pending"
+        place.yelp_name = event_place["name"]
+        place.yelp_alias = event_place["alias"]
+        place.yelp_id = event_place["id"]
+        place.yelp_price = event_place["price"]
+        place.yelp_longitude = event_place["coordinates"]["longitude"]
+        place.yelp_latitude = event_place["coordinates"]["latitude"]
+        place.yelp_phone = event_place["phone"]
+        place.yelp_address1 = event_place["location"]["address1"]
+        place.yelp_address2 = event_place["location"]["address2"]
+        place.yelp_address3 = event_place["location"]["address3"]
+        place.yelp_city = event_place["location"]["city"]
+        place.yelp_country = event_place["location"]["country"]
+        place.yelp_zip_code = event_place["location"]["zip_code"]
+        place.yelp_state = event_place["location"]["state"]
+        place.yelp_url = event_place["url"]
+        place.yelp_image_url = event_place["image_url"]
+        place.yelp_image_url = nil if place.yelp_image_url == ""
+        place.yelp_rating = event_place["rating"]
+        place.yelp_review_count = event_place["review_count"]
+        place.rank = rank
+        rank += 1
+        # Try to save it
+        if place.valid?
+          place.save
+        else
+          puts "---- /!/ ERROR: Can't save place #{place.yelp_name}. Not valid."
+        end
+      end
+    else
+      p "Can't find results for '#{event.term}' in #{event.city}"
+    end
+  end
 end

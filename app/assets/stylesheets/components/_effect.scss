@@ -1,0 +1,14 @@
+.bw_disabled {
+  & img:not(.bw_event-random-user) {
+    filter: grayscale(.8) blur(5px);
+    width: 40vw;
+    height: 40vw;
+  }
+  & a {
+    color: lightgray;
+    cursor: pointer;
+  }
+  & i {
+    color: lightgray;
+  }
+}

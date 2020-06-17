@@ -1,0 +1,12 @@
+<div class="container d-flex flex-column justify-content-center align-items-center mt-4 bw_padding-bottom-2 bw_disabled">
+  <%= image_tag @random_user.avatar_file, class: "bw_event-random-user bw_image-round my-4" %>
+  <h2 class="body-font text-center font-bolder"><span class="text-primary"><%= @random_user.nickname %></span> has to book it!</h2>
+  <div class="bw_big-event-infos d-flex flex-row justify-content-between align-items-center mt-2">
+    <strong><i class="fas fa-calendar-check mr-2 text-primary"></i> <%= @event.date.strftime("%b %d") %></strong>
+    <strong><i class="fas fa-users mr-2 text-primary"></i> <%= @event.users.count %></strong>
+  </div>
+
+  <%= image_tag @event_place.yelp_image_url, class: "bw_event-cover bw_image-round my-4" %>
+
+  <% if !@event_place.yelp_rating.nil? %><p class="bw_stars"><% @event_place.yelp_rating.times do %> <i class="fas fa-star"></i> <% end %> (<%= @event_place.yelp_review_count %>)</p><% end %>
+</div>

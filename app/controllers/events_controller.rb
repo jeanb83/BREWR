@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :set_group, only: [:new, :create]
+  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event_id, only: [:full, :booked]
   # before_action :authenticate_user!
 
   def show
@@ -11,12 +12,18 @@ class EventsController < ApplicationController
     # STAGE 1 (VOTE)
     if @event.stage == 1
       @event_membership = EventMembership.find_by(user_id: current_user, event_id: @event)
-    # STAGE 2 (BOOKING)
+    # STAGE 2
     elsif @event.stage == 2
-      set_last_stages_variables
-    # STAGE 3 (BOOKED)
+      # Set pending places
+      set_event_places(@event)
+      # Current place is the first pending event places
+      set_event_place(@event_places)
+      # Set random user
+      @random_user = User.find(@event.random_user_id)
+    # STAGE 3
     elsif @event.stage == 3
-      set_last_stages_variables
+      # Final event place is the one that is booked
+      @event_place = @event.event_places.find_by(booking_status: "booked")
     end
   end
 
@@ -33,8 +40,9 @@ class EventsController < ApplicationController
     @event.stage = 1
     # Try to save
     if @event.save
-      # If save success invite all the group members to the event
-      invite_all_group_members_to_event(@group, @event)
+      # If save success all group members will be invited (after_create method) to the event
+      # Send notifications
+      Notification.new_event(@event)
       # And redirect to the event show
       redirect_to event_path(@event)
     else
@@ -71,35 +79,81 @@ class EventsController < ApplicationController
     redirect_to group_path(@group)
   end
 
+  def full
+    # Set pending places
+    set_event_places(@event)
+    # Current place is the first pending event places
+    set_event_place(@event_places)
+
+    # Update booking status to full
+    @event_place.booking_status = "full"
+
+    # Save event place
+    if @event_place.save
+      # If save success redirect to event show
+      redirect_to event_path(@event)
+    else
+      # If failure, log the event in the console
+      p "- ERROR: Failed to update event:\n#{@event}."
+      # And render the edit form again
+      render "show"
+    end
+  end
+
+  def booked
+    # Set pending places
+    set_event_places(@event)
+    # Current place is the first pending event places
+    set_event_place(@event_places)
+
+    # Update booking status to booked
+    @event_place.booking_status = "booked"
+    # Update stage to 3
+    @event.stage = 3
+
+    # Save event AND event_place
+    if @event.save && @event_place.save
+      # Send notifications
+      Notification.upstaged_to_3(@event, @event_place)
+      # If save success redirect to event show
+      redirect_to event_path(@event)
+    else
+      # If failure, log the event in the console
+      p "- ERROR: Failed to update event:\n#{@event}."
+      # And render the edit form again
+      render "show"
+    end
+  end
+
   private
 
+  # Find event by id in DB
   def set_event
-    # Find event by id in DB
     @event = Event.find(params[:id])
   end
 
+  # Find event by event_id in DB
+  def set_event_id
+    @event = Event.find(params[:event_id])
+  end
+
+  # Find group by group_id in DB
   def set_group
     @group = Group.find(params[:group_id])
   end
 
-  def set_last_stages_variables
-    @event_places = @event.event_places.where(booking_status: false).or(@event.event_places.where(booking_status: nil))
-    @event_place = @event_places[0]
-    puts @event_place
-  end
-
+  # Whitelist params
   def event_params
-    # Whitelist params
     params.require(:event).permit(:title, :date, :city, :avatar_file)
   end
 
-  # Method for auto-inviting all group members to an event
-  def invite_all_group_members_to_event(group, event)
-    # Get the users list
-    @users = group.users
-    @users.each do |user|
-      # For each user in the list create an Event Membership with status true by default
-      event_membership = EventMembership.create(user: user, event: event, status: true)
-    end
+  # Set the pending places
+  def set_event_places(event)
+    @event_places = event.event_places.where(booking_status: "pending")
+  end
+
+  # Set current event place
+  def set_event_place(event_places)
+    @event_place = event_places[0]
   end
 end

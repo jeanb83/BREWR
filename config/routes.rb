@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   resources :events, only: [:show, :edit, :update, :destroy] do # As a user I can do the rest of the crud inside the event page
     post 'votes', to: 'votes#bulk_create', as: 'votes'
+    post 'full', to: 'events#full', as: 'full'
+    post 'booked', to: 'events#booked', as: 'booked'
   end
 
   resources :event_memberships, only: [:update] # As a user I can declare that I won't be coming for this event

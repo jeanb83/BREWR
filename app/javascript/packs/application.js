@@ -28,19 +28,12 @@ import "bootstrap";
 // Internal imports, e.g:
 import { avatarClick } from '../components/avatar_click';
 import { likeClick } from '../components/like_click';
-// import { initSelect2 } from '../components/init_select2';
 
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
   avatarClick();
   likeClick();
-});
-
-// Listen to clicks on avatars
-const listenAvatarClicks = () => avatars.forEach(node => {
-  node.addEventListener('click', avatarClick);
-  console.log("Loaded.");
 });
 
 function getTimeRemaining(endtime) {
@@ -85,4 +78,3 @@ function initializeClock(id, endtime) {
 
 const deadline = new Date(Date.parse(new Date()) + 1 * 24 * 60 * 60 * 1000);
 initializeClock('clockdiv', deadline);
-

@@ -22,7 +22,7 @@ class Vote < ApplicationRecord
     # Get the vote's event
     @event = self.event
     # Check if there's enough votes
-    if @event.votes.count >= @event.users.count
+    if @event.votes.distinct.count(:event_membership_id) >= @event.users.count
       # Initialize compilation as a hash
       @compiled_votes = {}
       # Initialize all possible tastes to 0 for compilation

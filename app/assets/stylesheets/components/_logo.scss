@@ -1,0 +1,14 @@
+.animate__animated.animate__bounce {
+  --animate-duration: 2s;
+}
+
+/* This changes all the animations globaly */
+:root {
+  --animate-duration: 800ms;
+  --animate-delay: 0.9s;
+}
+
+.rotate_svg svg {
+    /* flip vertically */
+    transform: scaleX(-1);
+}

@@ -7,7 +7,7 @@
 
   <%= image_tag @event_place.yelp_image_url, class: "bw_event-cover bw_image-round my-4" %>
 
-  <h2 class="h-32px"><%= @event_place.yelp_name %></h2>
+  <h2 class="h-32px text-center"><%= @event_place.yelp_name %></h2>
 
   <% if !@event_place.yelp_rating.nil? %><p class="bw_stars"><% @event_place.yelp_rating.times do %> <i class="fas fa-star text-primary"></i> <% end %> (<%= @event_place.yelp_review_count %>)</p><% end %>
   

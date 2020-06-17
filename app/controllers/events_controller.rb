@@ -4,6 +4,11 @@ class EventsController < ApplicationController
   before_action :set_event_id, only: [:full, :booked]
   # before_action :authenticate_user!
 
+  def index
+    yesterday = Date.today - 1
+    @events = current_user.events.where("date > ?", yesterday).order(date: :asc)
+  end
+
   def show
     # Set event users
     @users = @event.users

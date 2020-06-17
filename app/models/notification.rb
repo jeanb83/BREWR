@@ -80,7 +80,7 @@ class Notification < ApplicationRecord
                                       from_model: "event",
                                       from_model_avatar_file: event.avatar_file,
                                       from_model_link: "/events/#{event.id}")
-      notification.content = "All right! You are going out on #{event.date.strftime('%b %d')} at #{event_place.yelp_name} (#{event_place.city}) for #{event.title}!"
+      notification.content = "All right! You are going out on #{event.date.strftime('%b %d')} at #{event_place.yelp_name} (#{event_place.yelp_city}) for #{event.title}!"
       if notification.valid?
         notification.save
       else

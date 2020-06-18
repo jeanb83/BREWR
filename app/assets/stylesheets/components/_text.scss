@@ -40,6 +40,11 @@ h2 {
   & a {
     color: $dark !important;
   }
+
+  & a:hover {
+    text-decoration: none;
+  }
+
 }
 
 .bw_big-event-infos {
@@ -56,4 +61,9 @@ h2 {
 
 .font-bolder {
   font-weight: bolder;
+}
+
+.bw_big-word {
+  font-size: 48px;
+  color: $orange;
 }

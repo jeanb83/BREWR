@@ -11,14 +11,14 @@ class Event < ApplicationRecord
   validates :title, presence: true
   validates :date, presence: true
   validates :city, presence: true
-  
+
   after_create :invite_group_members
 
   def get_deadline_timestamp
-    deadline = self.created_at + 4.hours
+    deadline = self.created_at + 48.hours
     deadline.to_i * 1000
   end
-  
+
   private
 
   def invite_group_members

@@ -17,7 +17,7 @@
           </div>
           <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
             <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
-            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+            <small class="text-muted"><%= event.date.strftime("%a %b %d") %></small>
           </div>
         </div>
       <% end %>
@@ -36,7 +36,7 @@
           </div>
           <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
             <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
-            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+            <small class="text-muted"><%= event.date.strftime("%a %b %d") %></small>
           </div>
         </div>
       <% end %>
@@ -54,7 +54,7 @@
           </div>
           <div class="flex-grow-1 justify-content-between d-flex flex-row align-items-center">
             <strong class="text-dark"><%= link_to "#{event.title}", event_path(event) %></strong>
-            <small class="text-muted"><%= event.date.strftime("%A %b %d") %></small>
+            <small class="text-muted"><%= event.date.strftime("%a %b %d") %></small>
           </div>
         </div>
       <% end %>

@@ -23,27 +23,27 @@ errors = 0 # Starting errors counter
 # OPTIONS
 # Users
 clean_users = true
-seed_users = true
+seed_users = false
 # Groups (requires users in db!)
 clean_groups = true
-seed_groups = true
+seed_groups = false
 # Group Memberships (requires groups & users in db!)
 clean_group_memberships = true
-seed_group_memberships = true
+seed_group_memberships = false
 # Messages (requires groups & users in db!)
 clean_messages = true
-seed_messages = true
+seed_messages = false
 # Events (requires groups & users in db!)
 clean_events = true
-seed_events = true
+seed_events = false
 # Event Memberships (requires groups & users in db!)
 clean_event_memberships = true
 # Votes (requires groups & users & events in db!)
 clean_votes = true
-seed_votes = true
+seed_votes = false
 # Notifications (requires users in db!)
 clean_notifications = true
-seed_notifications = true
+seed_notifications = false
 # Database
 clean_database = true
 
@@ -151,7 +151,7 @@ end
 
 
 # GENERATE USERS
-if seed_users
+if seed_users == true
   puts "CREATING #{users_number} USERS..."
   users_number.times do
     user = User.new
@@ -181,7 +181,7 @@ end
 
 
 # GENERATE GROUPS
-if seed_groups
+if seed_groups == true
   puts "CREATING #{groups_number} GROUPS..."
   groups_number.times do
     group = Group.new
@@ -208,7 +208,7 @@ end
 
 
 # GENERATE GROUP MEMBERSHIPS
-if seed_group_memberships
+if seed_group_memberships == true
   puts "POPULATING GROUPS WITH USERS..."
   Group.all.each do |group|
     group_size = rand(users_per_group[0]..users_per_group[1])
@@ -242,7 +242,7 @@ end
 
 
 # GENERATE GROUP MESSAGES
-if seed_messages
+if seed_messages == true
   puts "FLOODING GROUPS WITH MESSAGES..."
   Group.all.each do |group|
     group_members = group.users
@@ -277,7 +277,7 @@ end
 
 
 # GENERATE EVENTS
-if seed_events
+if seed_events == true
   puts "CREATING EVENTS..."
   Group.all.each do |group|
     events_number = rand(events_per_group[0]..events_per_group[1])
@@ -314,7 +314,7 @@ end
 
 
 # SIMULATE VOTES & STAGING 1 > 2
-if seed_votes
+if seed_votes == true
   # JUST TO BE SURE
   events_number = Event.all.count
   stage_2_events_number = events_number if stage_2_events_number > events_number

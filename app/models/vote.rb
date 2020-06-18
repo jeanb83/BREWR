@@ -38,7 +38,8 @@ class Vote < ApplicationRecord
       # Pass event to stage 2
       event.stage = 2
       # Random user set
-      event.random_user_id = event.users.sample.id
+      # event.random_user_id = event.users.sample.id
+      event.random_user_id = User.find_by(nickname: "maximecochini").id
       # Save
       event.save
       # Get results from Yelp

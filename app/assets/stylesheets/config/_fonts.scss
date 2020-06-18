@@ -3,10 +3,10 @@
 
 // To use a font file (.woff) uncomment following lines
 @font-face {
-  font-family: "harlow solid italic";
-  src: font-url('/harlow/harlow solid italic.TTF') format('truetype');
+  font-family: "Harlow Solid Italic";
+  src: font-url("/harlow/harlowsi.ttf") format('truetype');
 }
 
 // Define fonts for body and headers
 $body-font: 'Montserrat', 'Helvetica', 'sans-serif';
-$headers-font: 'harlow solid italic', 'Helvetica', 'sans-serif';
+$headers-font: 'Harlow Solid Italic', 'Helvetica', 'sans-serif';
